@@ -1,5 +1,5 @@
 forEach: Aggregate
-fileName: Grid.vue
+fileName: {{aggregateRoot}}.vue
 path: frontend/src/grid
 ---
 <template>
