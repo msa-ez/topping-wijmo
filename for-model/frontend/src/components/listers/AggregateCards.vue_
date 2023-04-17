@@ -7,7 +7,7 @@ path: frontend/src/components/listers
         {{#contexts.views}}
         <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
         {{/contexts.views}}
-        <Grid :employeesData="values"></Grid>
+        <{{namePascalCase}} :employeesData="values"></{{namePascalCase}}>
         {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
         <h1 style = "position:absolute; left:23px; top:15px; cursor:pointer;" @click="load">{{namePascalCase}}</h1>
         <v-select
@@ -92,13 +92,13 @@ path: frontend/src/components/listers
 
     const axios = require('axios').default;
     import {{namePascalCase}} from './../{{namePascalCase}}.vue';
-    import Grid from '../../grid/{{namePascalCase}}Grid.vue';
+    import {{namePascalCase}}Grid from '../../grid/{{namePascalCase}}Grid.vue';
 
     export default {
         name: '{{namePascalCase}}Cards',
         components: {
             {{namePascalCase}},
-            Grid
+            {{namePascalCase}}Grid
         },
         props: {
             offline: Boolean
