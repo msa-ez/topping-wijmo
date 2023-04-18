@@ -92,7 +92,7 @@ path: frontend/src/components/listers
 
     const axios = require('axios').default;
     import {{namePascalCase}} from './../{{namePascalCase}}.vue';
-    import {{namePascalCase}}Grid from '../../grid/{{namePascalCase}}.vue';
+    import {{namePascalCase}}Grid from '../../grid/{{namePascalCase}}Grid.vue';
 
     export default {
         name: '{{namePascalCase}}Cards',
