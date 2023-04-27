@@ -95,8 +95,6 @@ path: frontend/src/components
                 let {{toURL nameCamelCase}} = temp.data._embedded.{{toURL nameCamelCase}}
                 this.isUpdating = true;
                 me.values = {{toURL nameCamelCase}}
-                console.log("this.search" + me.values)
-                
                 await this.update{{namePascalCase}}Names();
                 this.isUpdating = false;
             },
