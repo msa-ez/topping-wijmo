@@ -95,9 +95,7 @@ path: frontend/src/components
                 me.values = {{nameCamelCase}}
                 console.log("this.search" + me.values)
                 
-                {{#aggregateRoot.fieldDescriptors}}
                 await this.update{{namePascalCase}}Names();
-                {{/aggregateRoot.fieldDescriptors}}
                 this.isUpdating = false;
             },
         },
