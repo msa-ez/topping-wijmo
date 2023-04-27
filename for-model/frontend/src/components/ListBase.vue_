@@ -40,8 +40,8 @@ path: frontend/src/components
                     {{/aggregateRoot.fieldDescriptors}}
                 }
             },
-            {{/boundedContexts}}
             {{/aggregates}}
+            {{/boundedContexts}}
             {{#boundedContexts}}
             {{#aggregates}}
             async {{name}}ToName(id){
