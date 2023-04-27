@@ -94,7 +94,10 @@ path: frontend/src/components
                 this.isUpdating = true;
                 me.values = {{nameCamelCase}}
                 console.log("this.search" + me.values)
-                await this.updateDepartmentNames();
+                
+                {{#aggregateRoot.fieldDescriptors}}
+                await this.update{{namePascalCase}}Names();
+                {{/aggregateRoot.fieldDescriptors}}
                 this.isUpdating = false;
             },
         },
