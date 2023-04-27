@@ -42,7 +42,7 @@ path: frontend/src/components
             },
             {{#boundedContexts}}
             {{#aggregates}}
-            async {{name}}ToName(id){
+            async {{nameCamelCase}}ToName(id){
                try{
                     let result = await axios.get(axios.fixUrl(`/{{namePlural}}/${id}`))
                     result.data.id = id;
