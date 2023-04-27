@@ -32,7 +32,9 @@ path: frontend/src/components
             async update{{namePascalCase}}Names() {
                 for (let value of this.values) {
                     {{#aggregateRoot.fieldDescriptors}}
-                    value.{{nameCamelCase}}Id = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}Id.id);
+                    if (value.{{nameCamelCase}}) {
+                        value.{{nameCamelCase}} = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                    }
                     {{/aggregateRoot.fieldDescriptors}}
                 }
             },
