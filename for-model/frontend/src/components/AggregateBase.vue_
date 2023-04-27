@@ -19,7 +19,6 @@ path: frontend/src/components
             values: [],
             newValue: {},
             isUpdating: false,
-
         }),
         methods:{
             closeDialog(){
@@ -29,9 +28,7 @@ path: frontend/src/components
                 this.tick = false
                 this.newValue = {}
                 this.values.push(value)
-                
                 this.$emit('input', this.values);
-
                 this.$nextTick(function(){
                     this.tick=true
                 })
@@ -44,7 +41,6 @@ path: frontend/src/components
                         break;
                     }
                 }
-
                 if(where > -1){
                     this.values.splice(i, 1);
                     this.$emit('input', this.values);
@@ -65,14 +61,11 @@ path: frontend/src/components
                     if(!me.values) me.values = [];
                     return;
                 } 
-
                 var temp = null;
                 if(query!=null){
                     temp = await axios.get(axios.fixUrl('/{{namePlural}}/' + query.apiPath), {params: query.parameters})
-
                 }else{
                     temp = await axios.get(axios.fixUrl('/{{namePlural}}'))
-
                 }
                 let {{namePlural}} = temp.data._embedded.{{namePlural}}
                 

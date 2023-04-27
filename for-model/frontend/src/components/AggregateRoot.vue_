@@ -162,11 +162,17 @@ path: frontend/src/components
 </template>
 
 <script>
+    {{#aggregateRoot.fieldDescriptors}}
+    import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
+    {{/aggregateRoot.fieldDescriptors}}
+
     const axios = require('axios').default;
+    import Vue from "vue"
 
     import { RSocketClient } from 'rsocket-core';
     import RSocketWebSocketClient from 'rsocket-websocket-client';
     import { IdentitySerializer, JsonSerializer } from "rsocket-core/build";
+    
 
     {{#aggregateRoot.fieldDescriptors}}
     {{#if (isNotId nameCamelCase)}}
@@ -291,6 +297,21 @@ path: frontend/src/components
             {{/if}}
         },
         methods: {
+            async init() {
+                var me = this;
+                let lists = await me.search();
+                let departmentClass = Vue.extend(departmentBase);
+                me.department = new departmentClass();
+
+                // 모든 department 이름을 처리하고 각 value에 할당하기 위한 Promise 배열 생성
+                let Promises = lists.map(async function (value) {
+                    value.departmentId = await me.department.departmentToName(value.departmentId.id);
+                });
+
+                // 모든 department 이름 처리가 완료될 때까지 기다린 후 me.values에 할당
+                await Promise.all(Promises);
+                me.values = lists;
+            },
             selectFile(){
                 if(this.editMode == false) {
                     return false;
@@ -329,7 +350,6 @@ path: frontend/src/components
                             temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
                         }
                     }
-
                     if(this.value!=null) {
                         for(var k in temp.data) this.value[k]=temp.data[k];
                     } else {
@@ -362,13 +382,11 @@ path: frontend/src/components
                     if (!this.offline) {
                         await axios.delete(axios.fixUrl(this.value._links.self.href))
                     }
-
                     this.editMode = false;
                     this.isDeleted = true;
 
                     this.$emit('input', this.value);
                     this.$emit('delete', this.value);
-
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
@@ -392,7 +410,6 @@ path: frontend/src/components
                             this.value[k]=temp.data[k];
                         }
                     }
-
                     this.editMode = false;
                 {{#if (checkParam fieldDescriptors)}}
                     this.close{{namePascalCase}}();
@@ -421,7 +438,6 @@ path: frontend/src/components
                     if(!this.offline) {
                         await axios.delete(axios.fixUrl(this.value._links['{{nameCamelCase}}'].href))
                     }
-
                     this.editMode = false;
                     this.isDelete = true;
                     
@@ -444,12 +460,10 @@ path: frontend/src/components
                         var temp = await axios.post(axios.fixUrl(this.value._links['{{controllerInfo.apiPath}}'].href))
                         for(var k in temp.data) this.value[k]=temp.data[k];
                     }
-
                     this.editMode = false;
                     
                     this.$emit('input', this.value);
                     this.$emit('delete', this.value);
-                
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
@@ -462,8 +476,6 @@ path: frontend/src/components
             {{/checkCommandPost}}
             {{/isRestRepository}}
             {{/commands}}
-
-
         },
     }
 </script>
