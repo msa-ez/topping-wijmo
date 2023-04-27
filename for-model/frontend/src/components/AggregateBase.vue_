@@ -62,7 +62,7 @@ path: frontend/src/components
                     this.$emit('input', this.values);
                 }
             },
-            {{#aggregateRoot.fieldDescriptors}}
+            {{#aggregateRoot}}
             async {{nameCamelCase}}toName(id){
                try{
                     let result = await axios.get(axios.fixUrl(`/{{toURL nameCamelCase}}/${id}`))
@@ -72,7 +72,7 @@ path: frontend/src/components
                     return null;
                 }
             },
-            {{/aggregateRoot.fieldDescriptors}}
+            {{/aggregateRoot}}
             async search(query) {
                 var me = this;
                 if(me.offline){
