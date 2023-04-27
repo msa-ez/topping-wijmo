@@ -301,12 +301,16 @@ path: frontend/src/components
             async init() {
                 var me = this;
                 let lists = await me.search();
-                let departmentClass = Vue.extend(departmentBase);
-                me.department = new departmentClass();
+                {{#aggregateRoot.fieldDescriptors}}
+                let {{namePlural}}Class = Vue.extend({{namePascalCase}}Base);
+                me.{{namePlural}} = new {{namePlural}}Class();
+                {{/aggregateRoot.fieldDescriptors}}
 
                 // 모든 department 이름을 처리하고 각 value에 할당하기 위한 Promise 배열 생성
                 let Promises = lists.map(async function (value) {
-                    value.departmentId = await me.department.departmentToName(value.departmentId.id);
+                    {{#aggregateRoot.fieldDescriptors}}
+                    value.{{nameCamelCase}} = await me.department.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                    {{/aggregateRoot.fieldDescriptors}}
                 });
 
                 // 모든 department 이름 처리가 완료될 때까지 기다린 후 me.values에 할당
