@@ -1,5 +1,5 @@
 forEach: Aggregate
-fileName: {{namePascalCase}}.vue
+fileName: {{namePascalCase}}Base.vue
 path: frontend/src/components
 ---
 <template>
@@ -80,15 +80,15 @@ path: frontend/src/components
 
                 var temp = null;
                 if(query!=null){
-                    temp = await axios.get(axios.fixUrl('/employees/' + query.apiPath), {params: query.parameters})
+                    temp = await axios.get(axios.fixUrl('/{{nameCamelCase}}/' + query.apiPath), {params: query.parameters})
 
                 }else{
-                    temp = await axios.get(axios.fixUrl('/employees'))
+                    temp = await axios.get(axios.fixUrl('/{{nameCamelCase}}'))
 
                 }
-                let employees = temp.data._embedded.employees
+                let {{nameCamelCase}} = temp.data._embedded.{{nameCamelCase}}
                 this.isUpdating = true;
-                me.values = employees
+                me.values = {{nameCamelCase}}
                 console.log("this.search" + me.values)
                 await this.updateDepartmentNames();
                 this.isUpdating = false;
