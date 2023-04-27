@@ -31,7 +31,9 @@ path: frontend/src/components
         methods:{
             async updateDepartmentNames() {
                 for (let value of this.values) {
+                    {{#aggregateRoot.fieldDescriptors}}
                     value.departmentId = await this.toName(value.departmentId.id);
+                    {{/aggregateRoot.fieldDescriptors}}
                 }
             },
             closeDialog(){
