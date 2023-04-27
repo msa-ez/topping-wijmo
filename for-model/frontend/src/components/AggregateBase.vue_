@@ -12,6 +12,7 @@ const axios = require('axios').default;
 
 export default{
     name: '{{nameCamelCase}}-base',
+    mixins: [ListBase],
     props: {
     },
     data: () => ({
