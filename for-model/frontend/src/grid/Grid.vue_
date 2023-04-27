@@ -4,6 +4,7 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
+        <{{namePascalCase}}ViewQuery @search="search"></{{namePascalCase}}ViewQuery>
         <div class="row">
             <!-- export to Excel -->
             <div class="toolbar-item col-sm-3 col-md-2">
@@ -11,9 +12,9 @@ path: frontend/src/grid
             </div>
 
             <!-- export to PDF -->
-            <div class="toolbar-item col-sm-3 col-md-2">
+            <!-- <div class="toolbar-item col-sm-3 col-md-2">
                 <button class="btn btn-default btn-block" @click="exportToPdf">Export To PDF</button>
-            </div>
+            </div> -->
         </div>
 
         <!-- group panel -->
@@ -29,102 +30,98 @@ path: frontend/src/grid
             :showMarquee="true"
             :selectionMode="'MultiRange'"
             :validateEdits="false"
-            :itemsSource="data"
+            :itemsSource="values"
             :initialized="flexInitialized"
         >
-            <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}'{{namePascalCase}}',{{/aggregateRoot.fieldDescriptors}}]" />
+            <wj-flex-grid-filter :filterColumns="['Id','UserName','UserId','DepartmentId',]" />
 
-            {{#aggregateRoot.fieldDescriptors}}
-            <wj-flex-grid-column binding="{{namePascalCase}}" header="{{namePascalCase}}" width="2*" :isReadOnly="true" />
-            {{/aggregateRoot.fieldDescriptors}}
+            <wj-flex-grid-column binding="id" header="Id" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="userName" header="UserName" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="userId" header="UserId" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="departmentId.department" header="DepartmentId" width="2*" :isReadOnly="true" />
         </wj-flex-grid>
+        <v-col style="margin-bottom:40px;">
+            <div class="text-center">
+                <v-dialog
+                    v-model="openDialog"
+                    width="332.5"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
+                >
+                    <{{namePascalCase}} :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" 
+                            @add="append" v-if="tick"/>
+                    <v-btn
+                        style="position:absolute; top:2%; right:2%"
+                        @click="closeDialog()"
+                        depressed
+                        icon 
+                        absolute
+                    >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-dialog>
+                <v-btn color="blue" fab dark large
+                    style="position:fixed; bottom: 5%; right: 2%; z-index:99"
+                    @click="openDialog=true;"
+                >
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </div>
+        </v-col>
     </div>
 </template>
 
 <script>
+import {{namePascalCase}}ViewQuery from '../components/{{namePascalCase}}ViewQuery.vue';
+import {{namePascalCase}} from '../components/{{namePascalCase}}.vue'
+
 import '@grapecity/wijmo.touch';
 import '@grapecity/wijmo.vue2.grid';
 import '@grapecity/wijmo.vue2.grid.grouppanel';
 import '@grapecity/wijmo.vue2.grid.filter'
 import '@grapecity/wijmo.vue2.input';
 import * as wjCore from '@grapecity/wijmo';
-import { InputDate, InputTime } from "@grapecity/wijmo.input";
 import { DataMap } from '@grapecity/wijmo.grid';
-import { CellMaker, SparklineMarkers } from '@grapecity/wijmo.grid.cellmaker';
 import { DataService } from "./data";
 import { ExportService } from "./export";
 import * as wjcCore from "@grapecity/wijmo";
 
 export default {
-    el: "#Grid",
-    props: {
-        employeesData: Array,
+    name : '{{nameCamelCase}}-grid',
+    mixins:[{{namePascalCase}}],
+    componets:{
+        {{namePascalCase}}ViewQuery,
+        {{namePascalCase}}
     },
-    data: function() {
-        return {
-            data: null,
-
-            // editors
-            editors: {
-                inputDate: new InputDate(document.createElement('div'), {
-                    format: 'MM/dd/yyyy',
-                    isRequired: false
-                }),
-                inputTime: new InputTime(document.createElement('div'), {
-                    format: 'HH:mm',
-                    isRequired: false
-                })
-            }
-        };
-    },
-    created: function () {
+    data: () => ({
+        tick : true,
+        openDialog : false,
+    }),
+    created(){
+        this.init()
         this.dataService = new DataService();
         this.exportService = new ExportService();
-        // initializes data maps
-        this._productMap = this._buildDataMap(this.dataService.getProducts());
-        this._countryMap = new DataMap(this.dataService.getCountries(), 'id', 'name');
-        this._colorMap = this._buildDataMap(this.dataService.getColors());
-        // initializes cell templates
-        this.historyCellTemplate = CellMaker.makeSparkline({
-            markers: SparklineMarkers.High | SparklineMarkers.Low,
-            maxPoints: 25,
-            label: 'price history',
-        });
-        this.ratingCellTemplate = CellMaker.makeRating({
-            range: [1, 5],
-            label: 'rating'
-        });
-    },
+        // // initializes data maps
+        // this._productMap = this._buildDataMap(this.dataService.getProducts());
+        // this._countryMap = new DataMap(this.dataService.getCountries(), 'id', 'name');
+        // this._colorMap = this._buildDataMap(this.dataService.getColors());
+        // // initializes cell templates
+        // this.historyCellTemplate = CellMaker.makeSparkline({
+        //     markers: SparklineMarkers.High | SparklineMarkers.Low,
+        //     maxPoints: 25,
+        //     label: 'price history',
+        // });
+        // this.ratingCellTemplate = CellMaker.makeRating({
+        //     range: [1, 5],
+        //     label: 'rating'
+        // });
+    }, 
     beforeDestroy() {
         this.exportService.cancelExcelExport();
     },
-    methods: {
-        flexInitialized: function(flexgrid) {
-            this.flex = flexgrid;
-            // sort the data by country
-            let sd = new wjcCore.SortDescription("country", true);
-            flexgrid.collectionView.sortDescriptions.push(sd);
-            flexgrid.collectionView.currentChanged.addHandler(
-                this._updateCurrentInfo.bind(this)
-            );
-            this._updateCurrentInfo();
-        },
-        getData: function() {
-            var me = this
-            // create some random data
-            let countries = me.employeesData,
-                data = [];
-            for (let i = 0; i < countries.length; i++) {
-                data.push({
-                    id: i,
-                    {{#aggregateRoot.fieldDescriptors}}
-                    {{namePascalCase}}: countries[i].{{nameCamelCase}},
-                    {{/aggregateRoot.fieldDescriptors}}
-                });
-            }
-            return data;
-        },
-        groupPanelInitialized: function (ctl) {
+    methods:{
+         groupPanelInitialized: function (ctl) {
             this.groupPanel = ctl;
             if (this.flex) {
                 this.groupPanel.grid = this.flex;
@@ -137,36 +134,6 @@ export default {
                 historyCellTemplate: this.historyCellTemplate
             });
         },
-        getChangeCls: function (value) {
-            if (wjCore.isNumber(value)) {
-                if (value > 0) {
-                    return 'change-up';
-                }
-                if (value < 0) {
-                    return 'change-down';
-                }
-            }
-            return '';
-        },
-        _createItemsSource(counter) {
-            const data = this.dataService.getData(counter);
-            const view = new wjCore.CollectionView(data, {
-                getError: (function (item, prop) {
-                    const displayName = this.flex.columns.getColumn(prop).header;
-                    return this.dataService.validate(item, prop, displayName);
-                }).bind(this)
-            });
-            view.collectionChanged.addHandler((function (s, e) {
-                // initializes new added item with a history data
-                if (e.action === wjCore.NotifyCollectionChangedAction.Add) {
-                    e.item.history = this.dataService.getHistoryData();
-                    e.item.id = this._lastId;
-                    this._lastId ++;
-                }
-            }).bind(this));
-            return view;
-        },
-        // build a data map from a string array using the indices as keys
         _buildDataMap: function (items) {
             const map = [];
             for (let i = 0; i < items.length; i++) {
@@ -177,21 +144,31 @@ export default {
         getFlex: function () {
             return this.flex;
         },
-    },
-    computed: {
-        productMap: function () {
-            return this._productMap;
+        flexInitialized: function(flexgrid) {
+            this.flex = flexgrid;
+            let sd = new wjcCore.SortDescription("country", true);
+            flexgrid.collectionView.sortDescriptions.push(sd);
+            flexgrid.collectionView.currentChanged.addHandler(
+                this._updateCurrentInfo.bind(this)
+            );
+            this._updateCurrentInfo();
         },
-        countryMap: function () {
-            return this._countryMap;
+        departmentId(href){
+            if(href){
+                return href.split('/')[2]
+            }
+            return null;
         },
-        colorMap: function () {
-            return this._colorMap;
-        },
-    },
-    watch: {
-        employeesData: function (){
-            this.data = this.getData()
+        getChangeCls: function (value) {
+            if (wjCore.isNumber(value)) {
+                if (value > 0) {
+                    return 'change-up';
+                }
+                if (value < 0) {
+                    return 'change-down';
+                }
+            }
+            return '';
         },
     },
     filters: {
