@@ -3,11 +3,16 @@ fileName: {{namePascalCase}}Base.vue
 path: frontend/src/components
 ---
 <template>
-    <div></div>
+    <div>
+    {{#valueObject}}
+    {{nameCamelCase}}123
+    {{/valueObject}}
+    </div>
 </template>
 
 <script>
     const axios = require('axios').default;
+    
 
     export default{
         name: '{{nameCamelCase}}-base',
