@@ -187,6 +187,7 @@ path: frontend/src/components
 
     export default {
         name: '{{namePascalCase}}',
+        mixins:[{{namePascalCase}}],
         components:{
         {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
