@@ -1,4 +1,4 @@
-forEach: Aggregate
+forEach: Model
 fileName: {{namePascalCase}}Base.vue
 path: frontend/src/components
 ---
