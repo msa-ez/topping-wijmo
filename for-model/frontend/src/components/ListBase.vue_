@@ -29,19 +29,17 @@ path: frontend/src/components
             },
         },
         methods:{
-            {{#boundedContexts}}
-            {{#aggregates}}
             async update{{name}}Names() {
                 for (let value of this.values) {
-                    {{#aggregateRoot.fieldDescriptors}}
+                    {{#boundedContexts}}
+                    {{#aggregates}}
                     if (value.{{nameCamelCase}}Id && value.{{nameCamelCase}}Id.id) {
-                        value.{{nameCamelCase}}Id = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}Id.id);
+                        value.{{nameCamelCase}}Id = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
                     }
-                    {{/aggregateRoot.fieldDescriptors}}
+                    {{/aggregates}}
+                    {{/boundedContexts}}
                 }
             },
-            {{/aggregates}}
-            {{/boundedContexts}}
             {{#boundedContexts}}
             {{#aggregates}}
             async {{name}}ToName(id){
