@@ -32,7 +32,7 @@ path: frontend/src/components
             async update{{namePascalCase}}Names() {
                 for (let value of this.values) {
                     {{#aggregateRoot.fieldDescriptors}}
-                    value.departmentId = await this.toName(value.{{nameCamelCase}}Id.id);
+                    value.{{nameCamelCase}}Id = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}Id.id);
                     {{/aggregateRoot.fieldDescriptors}}
                 }
             },
@@ -65,7 +65,7 @@ path: frontend/src/components
                 }
             },
             {{#aggregateRoot.fieldDescriptors}}
-            async {{nameCamelCase}}toName(id){
+            async {{nameCamelCase}}ToName(id){
                try{
                     let result = await axios.get(axios.fixUrl(`/{{toURL nameCamelCase}}/${id}`))
                     result.data.id = id;
