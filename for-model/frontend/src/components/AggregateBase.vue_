@@ -69,7 +69,7 @@ path: frontend/src/components
             {{#aggregateRoot.fieldDescriptors}}
             async {{nameCamelCase}}ToName(id){
                try{
-                    let result = await axios.get(axios.fixUrl(`/{{toURL nameCamelCase}}/${id}`))
+                    let result = await axios.get(axios.fixUrl(`/{{nameCamelCase}}s/${id}`))
                     result.data.id = id;
                     return result.data;
                 }catch(e){
