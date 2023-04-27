@@ -29,54 +29,32 @@ path: frontend/src/components
             },
         },
         methods:{
-            async update{{namePascalCase}}Names() {
+            {{#boundedContexts}}
+            {{#aggregates}}
+            async update{{name}}Names() {
                 for (let value of this.values) {
                     {{#aggregateRoot.fieldDescriptors}}
-                    if (value.{{nameCamelCase}} && value.{{nameCamelCase}}.id) {
-                        value.{{nameCamelCase}} = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                    if (value.{{nameCamelCase}}Id && value.{{nameCamelCase}}Id.id) {
+                        value.{{nameCamelCase}}Id = await this.{{nameCamelCase}}ToName(value.{{nameCamelCase}}Id.id);
                     }
                     {{/aggregateRoot.fieldDescriptors}}
                 }
             },
-            closeDialog(){
-                this.openDialog = false
-            },
-            append(value){
-                this.tick = false
-                this.newValue = {}
-                this.values.push(value)
-                
-                this.$emit('input', this.values);
-
-                this.$nextTick(function(){
-                    this.tick=true
-                })
-            },
-            remove(value){
-                var where = -1;
-                for(var i=0; i<this.values.length; i++){
-                    if(this.values[i]._links.self.href == value._links.self.href){
-                        where = i;
-                        break;
-                    }
-                }
-
-                if(where > -1){
-                    this.values.splice(i, 1);
-                    this.$emit('input', this.values);
-                }
-            },
-            {{#aggregateRoot.fieldDescriptors}}
-            async {{nameCamelCase}}ToName(id){
+            {{/boundedContexts}}
+            {{/aggregates}}
+            {{#boundedContexts}}
+            {{#aggregates}}
+            async {{name}}ToName(id){
                try{
-                    let result = await axios.get(axios.fixUrl(`/{{nameCamelCase}}s/${id}`))
+                    let result = await axios.get(axios.fixUrl(`/{{namePlural}}/${id}`))
                     result.data.id = id;
                     return result.data;
                 }catch(e){
                     return null;
                 }
             },
-            {{/aggregateRoot.fieldDescriptors}}
+            {{/aggregates}}
+            {{/boundedContexts}}
         },
 
     }
