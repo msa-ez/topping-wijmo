@@ -84,15 +84,15 @@ path: frontend/src/components
 
                 var temp = null;
                 if(query!=null){
-                    temp = await axios.get(axios.fixUrl('/{{nameCamelCase}}/' + query.apiPath), {params: query.parameters})
+                    temp = await axios.get(axios.fixUrl('/{{toURL nameCamelCase}}/' + query.apiPath), {params: query.parameters})
 
                 }else{
-                    temp = await axios.get(axios.fixUrl('/{{nameCamelCase}}'))
+                    temp = await axios.get(axios.fixUrl('/{{toURL nameCamelCase}}'))
 
                 }
-                let {{nameCamelCase}} = temp.data._embedded.{{nameCamelCase}}
+                let {{toURL nameCamelCase}} = temp.data._embedded.{{toURL nameCamelCase}}
                 this.isUpdating = true;
-                me.values = {{nameCamelCase}}
+                me.values = {{toURL nameCamelCase}}
                 console.log("this.search" + me.values)
                 
                 await this.update{{namePascalCase}}Names();
