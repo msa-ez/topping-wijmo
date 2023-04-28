@@ -5,7 +5,7 @@ path: frontend/src/grid
 <template>
     <div class="container-fluid">
         {{#boundedContext}}
-        {{views}}
+        {{#views}}
         <{{namePascalCase}}ViewQuery @search="search"></{{namePascalCase}}ViewQuery>
         {{/views}}
         {{/boundedContext}}
