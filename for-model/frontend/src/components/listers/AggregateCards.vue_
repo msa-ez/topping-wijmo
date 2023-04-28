@@ -4,6 +4,7 @@ path: frontend/src/components/listers
 ---
 <template>
     <div>
+    
         {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
         <h1 style = "position:absolute; left:23px; top:15px; cursor:pointer;" @click="load">{{namePascalCase}}</h1>
         <v-select
@@ -88,13 +89,11 @@ path: frontend/src/components/listers
 
     const axios = require('axios').default;
     import {{namePascalCase}} from './../{{namePascalCase}}.vue';
-    import {{namePascalCase}}Grid from '../../grid/{{namePascalCase}}Grid.vue';
 
     export default {
         name: '{{namePascalCase}}Cards',
         components: {
             {{namePascalCase}},
-            {{namePascalCase}}Grid
         },
         props: {
             offline: Boolean
