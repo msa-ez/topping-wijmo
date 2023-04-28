@@ -302,8 +302,10 @@ path: frontend/src/components
                 var me = this;
                 let lists = await me.search();
                 {{#aggregateRoot.fieldDescriptors}}
-                let {{namePlural}}Class = Vue.extend({{namePascalCase}}Base);
-                me.{{namePlural}} = new {{namePlural}}Class();
+                {{#if referenceClass}}
+                let {{nameCamelCase}}Class = Vue.extend({{namePascalCase}}Base);
+                me.{{nameCamelCase}} = new {{nameCamelCase}}Class();
+                {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
 
                 // 모든 department 이름을 처리하고 각 value에 할당하기 위한 Promise 배열 생성
