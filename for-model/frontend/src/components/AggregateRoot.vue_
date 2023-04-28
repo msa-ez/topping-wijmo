@@ -306,15 +306,15 @@ path: frontend/src/components
                 let lists = await me.search();
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
-                let {{nameCamelCase}}Class = Vue.extend({{namePascalCase}}Base);
-                me.{{nameCamelCase}} = new {{nameCamelCase}}Class();
+                let {{referenceClass}}Class = Vue.extend({{referenceClass}}Base);
+                me.{{nameCamelCase}} = new {{referenceClass}}Class();
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
 
                 // 모든 department 이름을 처리하고 각 value에 할당하기 위한 Promise 배열 생성
                 let Promises = lists.map(async function (value) {
                     {{#aggregateRoot.fieldDescriptors}}
-                    value.{{nameCamelCase}} = await me.department.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                    value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
                     {{/aggregateRoot.fieldDescriptors}}
                 });
 
