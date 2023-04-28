@@ -311,7 +311,8 @@ export default {
             {{/aggregateRoot.fieldDescriptors}}
             
 
-            let Promises = lists.map(async function ({{#aggregateRoot.fieldDescriptors}}{{#if referenceClass}}value{{/if}}{{/aggregateRoot.fieldDescriptors}}) {
+            let Promises = lists.map(async function (value) {
+                if(value == null) return
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
                 value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
