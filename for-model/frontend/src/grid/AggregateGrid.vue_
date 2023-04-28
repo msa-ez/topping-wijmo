@@ -4,7 +4,7 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
-        <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
+        <{{namePascalCase}}ViewQuery @search="search"/>
         <div class="row">
             <!-- export to Excel -->
             <div class="toolbar-item col-sm-3 col-md-2">
