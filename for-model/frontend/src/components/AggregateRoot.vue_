@@ -170,13 +170,13 @@ path: frontend/src/components
     {{/aggregateRoot.fieldDescriptors}}
 
     const axios = require('axios').default;
+    {{#importVueOnce}}
     {{#aggregateRoot.fieldDescriptors}}
     {{#if referenceClass}}
-    {{#importVueOnce}}
     import Vue from "vue"
-    {{/importVueOnce}}
     {{/if}}
     {{/aggregateRoot.fieldDescriptors}}
+    {{#importVueOnce}}
 
     import { RSocketClient } from 'rsocket-core';
     import RSocketWebSocketClient from 'rsocket-websocket-client';
