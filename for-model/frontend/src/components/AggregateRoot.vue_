@@ -309,14 +309,16 @@ export default {
             me.{{nameCamelCase}} = new {{referenceClass}}Class();
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
-            {{#aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
+            
+
             let Promises = lists.map(async function (value) {
+                {{#aggregateRoot.fieldDescriptors}}
+                {{#if referenceClass}}
                 value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                {{/if}}
+                {{/aggregateRoot.fieldDescriptors}}
             });
             await Promise.all(Promises);
-            {{/if}}
-            {{/aggregateRoot.fieldDescriptors}}
             me.values = lists;
         },
         selectFile(){
