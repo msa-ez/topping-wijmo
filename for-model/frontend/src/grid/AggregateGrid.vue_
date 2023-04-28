@@ -5,9 +5,10 @@ path: frontend/src/grid
 <template>
     <div class="container-fluid">
         {{#boundedContext}}
-        {{#views}}
+        {{#if views}}
         <{{namePascalCase}}ViewQuery @search="search"></{{namePascalCase}}ViewQuery>
-        {{/views}}
+        {{else}}
+        {{/if}}
         {{/boundedContext}}
         <div class="row">
             <!-- export to Excel -->
