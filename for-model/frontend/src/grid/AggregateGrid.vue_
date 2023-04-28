@@ -37,12 +37,10 @@ path: frontend/src/grid
             :itemsSource="values"
             :initialized="flexInitialized"
         >
-            <wj-flex-grid-filter :filterColumns="['Id','UserName','UserId','DepartmentId',]" />
-
-            <wj-flex-grid-column binding="id" header="Id" width="2*" :isReadOnly="true" />
-            <wj-flex-grid-column binding="userName" header="UserName" width="2*" :isReadOnly="true" />
-            <wj-flex-grid-column binding="userId" header="UserId" width="2*" :isReadOnly="true" />
-            <wj-flex-grid-column binding="departmentId.department" header="DepartmentId" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}'{{nameCamelCase}}',{{/aggregateRoot.fieldDescriptors}}]" />
+            {{#aggregateRoot.fieldDescriptors}}
+            <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            {{/aggregateRoot.fieldDescriptors}}
         </wj-flex-grid>
         <v-col style="margin-bottom:40px;">
             <div class="text-center">
