@@ -314,7 +314,7 @@ path: frontend/src/components
                 let Promises = lists.map(async function (value) {
                     {{#aggregateRoot.fieldDescriptors}}
                     {{#if referenceClass}}
-                    value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                    value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{referenceClass}}ToName(value.{{nameCamelCase}}.id);
                     {{/if}}
                     {{/aggregateRoot.fieldDescriptors}}
                 });
