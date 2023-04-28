@@ -311,7 +311,6 @@ path: frontend/src/components
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
 
-                // 모든 department 이름을 처리하고 각 value에 할당하기 위한 Promise 배열 생성
                 let Promises = lists.map(async function (value) {
                     {{#aggregateRoot.fieldDescriptors}}
                     {{#if referenceClass}}
@@ -319,8 +318,6 @@ path: frontend/src/components
                     {{/if}}
                     {{/aggregateRoot.fieldDescriptors}}
                 });
-
-                // 모든 department 이름 처리가 완료될 때까지 기다린 후 me.values에 할당
                 await Promise.all(Promises);
                 me.values = lists;
             },
