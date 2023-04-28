@@ -165,7 +165,7 @@ path: frontend/src/components
     import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
     {{#aggregateRoot.fieldDescriptors}}
     {{#if referenceClass}}
-    import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
+    import {{referenceClass}} from '../components/{{referenceClass}}Base.vue'
     {{/if}}
     {{/aggregateRoot.fieldDescriptors}}
 
