@@ -163,7 +163,9 @@ path: frontend/src/components
 
 <script>
     {{#aggregateRoot.fieldDescriptors}}
+    {{#if referenceClass}}
     import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
+    {{/if}}
     {{/aggregateRoot.fieldDescriptors}}
 
     const axios = require('axios').default;
