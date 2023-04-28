@@ -170,7 +170,6 @@ import {{referenceClass}}Base from '../components/{{referenceClass}}Base.vue'
 {{/aggregateRoot.fieldDescriptors}}
 
 const axios = require('axios').default;
-import Vue from "vue"
 
 import { RSocketClient } from 'rsocket-core';
 import RSocketWebSocketClient from 'rsocket-websocket-client';
@@ -306,19 +305,18 @@ export default {
             let lists = await me.search();
             {{#aggregateRoot.fieldDescriptors}}
             {{#if referenceClass}}
-            let {{referenceClass}}Class = Vue.extend({{referenceClass}}Base);
+            let {{referenceClass}}Class = me.$Vue.extend({{referenceClass}}Base);
             me.{{nameCamelCase}} = new {{referenceClass}}Class();
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
-
+            {{#aggregateRoot.fieldDescriptors}}
+            {{#if referenceClass}}
             let Promises = lists.map(async function (value) {
-                {{#aggregateRoot.fieldDescriptors}}
-                {{#if referenceClass}}
                 value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
-                {{/if}}
-                {{/aggregateRoot.fieldDescriptors}}
             });
             await Promise.all(Promises);
+            {{/if}}
+            {{/aggregateRoot.fieldDescriptors}}
             me.values = lists;
         },
         selectFile(){

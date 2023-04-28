@@ -11,6 +11,7 @@ import Keycloak from 'keycloak-js'
 {{/if}}
 Vue.config.productionTip = false;
 Vue.component("excel-export-button", ExcelExportButton);
+Vue.prototype.$Vue = Vue;
 
 const axios = require("axios").default;
 
