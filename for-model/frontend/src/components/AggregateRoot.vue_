@@ -310,11 +310,11 @@ export default {
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
             
-            {{#anyReferenceClass aggregateRoot.fieldDescriptors}}
+            {{#aggregateRoot.fieldDescriptors}}
             {{#if referenceClass}}
             let Promises = lists.map(async function (value) {
             {{/if}}
-            {{/anyReferenceClass}}
+            {{/aggregateRoot.fieldDescriptors}}
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
                 value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
@@ -325,11 +325,7 @@ export default {
             });
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
-            {{#anyReferenceClass aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
             await Promise.all(Promises);
-            {{/if}}
-            {{/anyReferenceClass }}
             me.values = lists;
         },
         selectFile(){
@@ -502,14 +498,7 @@ export default {
 
 
 <function>
-    window.$Handlebars.registerHelper('anyReferenceClass', function(items, options) {
-        for (const item of items) {
-            if (item.referenceClass) {
-                return options.fn(this);
-            }
-        }
-        return options.inverse(this);
-    });
+
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
             return options.fn(this);
