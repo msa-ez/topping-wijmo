@@ -4,10 +4,6 @@ path: frontend/src/components/listers
 ---
 <template>
     <div>
-        {{#contexts.views}}
-        <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
-        {{/contexts.views}}
-        <{{namePascalCase}}Grid :employeesData="values"></{{namePascalCase}}Grid>
         {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
         <h1 style = "position:absolute; left:23px; top:15px; cursor:pointer;" @click="load">{{namePascalCase}}</h1>
         <v-select
