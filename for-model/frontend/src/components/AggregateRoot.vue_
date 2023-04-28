@@ -172,7 +172,9 @@ path: frontend/src/components
     const axios = require('axios').default;
     {{#aggregateRoot.fieldDescriptors}}
     {{#if referenceClass}}
+    {{#importVueOnce}}
     import Vue from "vue"
+    {{/importVueOnce}}
     {{/if}}
     {{/aggregateRoot.fieldDescriptors}}
 
@@ -495,6 +497,16 @@ path: frontend/src/components
 
 
 <function>
+    window.$Handlebars.registerHelper('importVueOnce', function(options) {
+    let found = false;
+    for (let descriptor of options.data.root.aggregateRoot.fieldDescriptors) {
+        if (descriptor.referenceClass && !found) {
+        found = true;
+        return 'import Vue from "vue"';
+        }
+    }
+        return '';
+    });
 
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
