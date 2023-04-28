@@ -5,6 +5,8 @@ import vuetify from "./plugins/vuetify";
 import Managing from "./components";
 import router from './router';
 import ExcelExportButton from "./grid/export-btn.vue";
+import Handlebars from 'handlebars';
+
 {{#if (isSelectedSecurity selectedSecurity)}}
 import Keycloak from 'keycloak-js'
 {{else}}
@@ -183,4 +185,12 @@ new Vue({
 		console.log(e)
 		}
   	});
+    window.$Handlebars.registerHelper('anyReferenceClass', function(items, options) {
+      for (const item of items) {
+          if (item.referenceClass) {
+              return options.fn(this);
+          }
+      }
+      return options.inverse(this);
+  });
 </function>

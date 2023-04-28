@@ -495,14 +495,6 @@ export default {
 
 
 <function>
-    window.$Handlebars.registerHelper('anyReferenceClass', function(items, options) {
-        for (const item of items) {
-            if (item.referenceClass) {
-                return options.fn(this);
-            }
-        }
-        return options.inverse(this);
-    });
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
             return options.fn(this);
