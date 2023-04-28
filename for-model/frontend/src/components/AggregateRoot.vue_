@@ -303,26 +303,33 @@ export default {
         async init() {
             var me = this;
             let lists = await me.search();
-
             {{#aggregateRoot.fieldDescriptors}}
             {{#if referenceClass}}
             let {{referenceClass}}Class = me.$Vue.extend({{referenceClass}}Base);
             me.{{nameCamelCase}} = new {{referenceClass}}Class();
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
-
+            
             {{#anyReferenceClass aggregateRoot.fieldDescriptors}}
-            let allPromises = [].concat(
+            {{#if referenceClass}}
+            let Promises = lists.map(async function (value) {
+            {{/if}}
+            {{/anyReferenceClass}}
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
-                {{nameCamelCase}}Promises{{^last}},{{/last}}
+                value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
-            );
-
-            await Promise.all(allPromises);
-            {{/anyReferenceClass}}
-
+            {{#aggregateRoot.fieldDescriptors}}
+            {{#if referenceClass}}
+            });
+            {{/if}}
+            {{/aggregateRoot.fieldDescriptors}}
+            {{#anyReferenceClass aggregateRoot.fieldDescriptors}}
+            {{#if referenceClass}}
+            await Promise.all(Promises);
+            {{/if}}
+            {{/anyReferenceClass }}
             me.values = lists;
         },
         selectFile(){
@@ -495,7 +502,7 @@ export default {
 
 
 <function>
-    Handlebars.registerHelper('anyReferenceClass', function(items, options) {
+    window.$Handlebars.registerHelper('anyReferenceClass', function(items, options) {
         for (const item of items) {
             if (item.referenceClass) {
                 return options.fn(this);
