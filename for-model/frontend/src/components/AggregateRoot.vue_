@@ -162,6 +162,7 @@ path: frontend/src/components
 </template>
 
 <script>
+    import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
     {{#aggregateRoot.fieldDescriptors}}
     {{#if referenceClass}}
     import {{namePascalCase}} from '../components/{{namePascalCase}}Base.vue'
