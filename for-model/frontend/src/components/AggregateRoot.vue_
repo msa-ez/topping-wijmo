@@ -311,7 +311,7 @@ export default {
             {{/aggregateRoot.fieldDescriptors}}
             
 
-            let Promises = lists.map(async function ({{#aggregateRoot.fieldDescriptors}}{{#if referenceClass}}value{{/if}}) {
+            let Promises = lists.map(async function ({{#aggregateRoot.fieldDescriptors}}{{#if referenceClass}}value{{/if}}{{/aggregateRoot.fieldDescriptors}}) {
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
                 value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
@@ -491,7 +491,6 @@ export default {
 
 
 <function>
-
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
             return options.fn(this);
