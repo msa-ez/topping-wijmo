@@ -303,33 +303,26 @@ export default {
         async init() {
             var me = this;
             let lists = await me.search();
+
             {{#aggregateRoot.fieldDescriptors}}
             {{#if referenceClass}}
             let {{referenceClass}}Class = me.$Vue.extend({{referenceClass}}Base);
             me.{{nameCamelCase}} = new {{referenceClass}}Class();
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
-            
-            {{#aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
-            let Promises = lists.map(async function (value) {
-            {{/if}}
-            {{/aggregateRoot.fieldDescriptors}}
+
+            {{#anyReferenceClass aggregateRoot.fieldDescriptors}}
+            let allPromises = [].concat(
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
-                value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                {{nameCamelCase}}Promises{{^last}},{{/last}}
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
-            {{#aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
-            });
-            {{/if}}
-            {{/aggregateRoot.fieldDescriptors}}
-            {{#aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
-            await Promise.all(Promises);
-            {{/if}}
-            {{/aggregateRoot.fieldDescriptors}}
+            );
+
+            await Promise.all(allPromises);
+            {{/anyReferenceClass}}
+
             me.values = lists;
         },
         selectFile(){
@@ -502,7 +495,14 @@ export default {
 
 
 <function>
-
+    window.$Handlebars.registerHelper('anyReferenceClass', function(items, options) {
+        for (const item of items) {
+            if (item.referenceClass) {
+                return options.fn(this);
+            }
+        }
+        return options.inverse(this);
+    });
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
             return options.fn(this);
