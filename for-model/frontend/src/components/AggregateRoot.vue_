@@ -315,7 +315,7 @@ export default {
                 if(value == null) return
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
-                value.{{nameCamelCase}} = await me.{{nameCamelCase}}.{{nameCamelCase}}ToName(value.{{nameCamelCase}}.id);
+                value.{{nameCamelCase}} = await me.{{nameCamelCase}}.getRealEntity(value.{{nameCamelCase}}.id);
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
             });
