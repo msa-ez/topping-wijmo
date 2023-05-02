@@ -46,7 +46,7 @@ path: frontend/src/components
                     this.$emit('input', this.values);
                 }
             },
-            async {{nameCamelCase}}IdToName(id){
+            async getRealEntity(id){
                try{
                     let result = await axios.get(axios.fixUrl(`/{{namePlural}}/${id}`))
                     result.data.id = id;
