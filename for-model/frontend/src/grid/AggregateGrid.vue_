@@ -36,9 +36,15 @@ path: frontend/src/grid
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}'{{nameCamelCase}}',{{/aggregateRoot.fieldDescriptors}}]" />
             {{#aggregateRoot.fieldDescriptors}}
             {{#if referenceClass}}
-            <wj-flex-grid-column binding="{{nameCamelCase}}.{{#outgoingRelations}}{{#target}}{{#aggregateRoot}}{{#fieldDescriptors}}{{#if isKey}}{{else}}{{name}}{{/if}}{{/fieldDescriptors}}{{/aggregateRoot}}{{/target}}{{/outgoingRelations}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            {{else}}
+            <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
+            {{#outgoingRelations}}
+            {{#target}}
+            <wj-flex-grid-column binding="{{nameCamelCase}}Id.{{#aggregateRoot}}{{#fieldDescriptors}}{{#if isName}}{{name}}{{/if}}{{/fieldDescriptors}}{{/aggregateRoot}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            {{/target}}
+            {{/outgoingRelations}}
         </wj-flex-grid>
         <v-col style="margin-bottom:40px;">
             <div class="text-center">
