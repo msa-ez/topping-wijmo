@@ -4,7 +4,9 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
-        <{{namePascalCase}}ViewQuery @search="search"/>
+        {{#contexts.views}}
+        <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
+        {{/contexts.views}}
         <div class="row">
             <!-- export to Excel -->
             <div class="toolbar-item col-sm-3 col-md-2">
@@ -259,3 +261,14 @@ export default {
         margin:10px 0;
     }
 </style>
+
+<function>
+var me = this;
+me.contexts.views = [];
+if(this.boundedContext.readModels)
+this.boundedContext.readModels.forEach(view=>{
+    if(view.aggregate == me && view.dataProjection=="query-for-aggregate"){
+        me.contexts.views.push(view);
+    }
+})
+</function>
