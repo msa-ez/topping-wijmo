@@ -87,6 +87,8 @@ import {{namePascalCase}}Query from '../components/{{namePascalCase}}Query.vue';
 {{/contexts.views}}
 import {{namePascalCase}} from '../components/{{namePascalCase}}.vue'
 
+const axios = require('axios').default;
+
 import '@grapecity/wijmo.touch';
 import '@grapecity/wijmo.vue2.grid';
 import '@grapecity/wijmo.vue2.grid.grouppanel';
