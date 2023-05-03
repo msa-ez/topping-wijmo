@@ -81,7 +81,9 @@ path: frontend/src/grid
 </template>
 
 <script>
-import {{namePascalCase}}ViewQuery from '../components/{{namePascalCase}}ViewQuery.vue';
+{{#contexts.views}}
+import {{namePascalCase}}Query from '../components/{{namePascalCase}}Query.vue';
+{{/contexts.views}}
 import {{namePascalCase}} from '../components/{{namePascalCase}}.vue'
 
 import '@grapecity/wijmo.touch';
@@ -99,7 +101,9 @@ export default {
     name : '{{nameCamelCase}}-grid',
     mixins:[{{namePascalCase}}],
     componets:{
-        {{namePascalCase}}ViewQuery,
+        {{#contexts.views}}
+        {{namePascalCase}}Query,
+        {{/contexts.views}}
         {{namePascalCase}}
     },
     data: () => ({
