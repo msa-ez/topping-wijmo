@@ -315,7 +315,9 @@ export default {
                 if(value == null) return
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if referenceClass}}
-                value.{{nameCamelCase}} = await me.{{nameCamelCase}}.getRealEntity(value.{{nameCamelCase}}.id);
+                if (value.{{nameCamelCase}} && value.{{nameCamelCase}}.id){
+                    value.{{nameCamelCase}} = await me.{{nameCamelCase}}.getRealEntity(value.{{nameCamelCase}}.id);
+                }
                 {{/if}}
                 {{/aggregateRoot.fieldDescriptors}}
             });
