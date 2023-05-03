@@ -4,6 +4,7 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
+        <button @click="deleteSelectedRows">삭제</button>
         {{#contexts.views}}
         <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
         {{/contexts.views}}
@@ -133,7 +134,36 @@ export default {
         this.exportService.cancelExcelExport();
     },
     methods:{
-         groupPanelInitialized: function (ctl) {
+        async deleteSelectedRows() {
+            try {
+                if (!this.offline) {
+                    const flexGrid = this.$refs.flexGrid;
+                    const view = flexGrid.collectionView;
+                    
+                    if (view.currentItem) {
+                        const deleteUrl = view.currentItem._links.{{nameCamelCase}}.href;
+                        await axios.delete(axios.fixUrl(deleteUrl));
+                        
+                        view.remove(view.currentItem);
+                        this.values = view.sourceCollection;
+                    }
+                }
+
+                this.editMode = false;
+                this.isDeleted = true;
+
+                this.$emit('input', this.value);
+                this.$emit('delete', this.value);
+            } catch(e) {
+                this.snackbar.status = true
+                if(e.response && e.response.data.message) {
+                    this.snackbar.text = e.response.data.message
+                } else {
+                    this.snackbar.text = e
+                }
+            }
+        },
+        groupPanelInitialized: function (ctl) {
             this.groupPanel = ctl;
             if (this.flex) {
                 this.groupPanel.grid = this.flex;
