@@ -25,6 +25,7 @@ path: frontend/src/grid
 
         <!-- the grid -->
         <wj-flex-grid
+            ref="flexGrid"
             :autoGenerateColumns="false"
             :allowAddNew="true"
             :allowDelete="true"
@@ -188,11 +189,11 @@ export default {
         getFlex: function () {
             return this.flex;
         },
-        flexInitialized: function(flexgrid) {
-            this.flex = flexgrid;
+        flexInitialized: function(flexGrid) {
+            this.flex = flexGrid;
             let sd = new wjcCore.SortDescription("country", true);
-            flexgrid.collectionView.sortDescriptions.push(sd);
-            flexgrid.collectionView.currentChanged.addHandler(
+            flexGrid.collectionView.sortDescriptions.push(sd);
+            flexGrid.collectionView.currentChanged.addHandler(
                 this._updateCurrentInfo.bind(this)
             );
             this._updateCurrentInfo();
