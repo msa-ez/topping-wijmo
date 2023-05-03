@@ -190,7 +190,7 @@ export default {
             return this.flex;
         },
         flexInitialized: function(flexGrid) {
-            this.flex = flexGrid;
+            this.$refs.flexGrid = flexGrid;
             let sd = new wjcCore.SortDescription("country", true);
             flexGrid.collectionView.sortDescriptions.push(sd);
             flexGrid.collectionView.currentChanged.addHandler(
