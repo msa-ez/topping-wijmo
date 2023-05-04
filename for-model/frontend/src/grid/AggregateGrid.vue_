@@ -38,7 +38,7 @@ path: frontend/src/grid
             :itemsSource="values"
             :initialized="flexInitialized"
         >
-            <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}'{{nameCamelCase}}',{{/aggregateRoot.fieldDescriptors}}]" />
+            <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}'{{nameCamelCase}}',{{/if}}{{/aggregateRoot.fieldDescriptors}}]" />
             {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
             {{#if referenceClass}}
