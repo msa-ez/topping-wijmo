@@ -4,7 +4,8 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
-        <button @click="deleteSelectedRows">삭제</button>
+        <v-btn @click="deleteSelectedRows">삭제</v-btn>
+        <v-btn @click="editSelectedRow">수정</v-btn>
         {{#contexts.views}}
         <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
         {{/contexts.views}}
@@ -16,7 +17,7 @@ path: frontend/src/grid
 
             <!-- export to PDF -->
             <!-- <div class="toolbar-item col-sm-3 col-md-2">
-                <button class="btn btn-default btn-block" @click="exportToPdf">Export To PDF</button>
+                <v-btn class="btn btn-default btn-block" @click="exportToPdf">Export To PDF</v-btn>
             </div> -->
         </div>
 
@@ -59,8 +60,13 @@ path: frontend/src/grid
                     hide-overlay
                     transition="dialog-bottom-transition"
                 >
-                    <{{namePascalCase}} :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" 
-                            @add="append" v-if="tick"/>
+                    <{{namePascalCase}} :offline="offline"
+                        class="video-card"
+                        :isNew="!selectedItem"
+                        :editMode="true"
+                        v-model="employeeModel"
+                        @add="append"
+                    />
                     <v-btn
                         style="position:absolute; top:2%; right:2%"
                         @click="closeDialog()"
@@ -113,7 +119,22 @@ export default {
     data: () => ({
         tick : true,
         openDialog : false,
+        selectedItem: null,
     }),
+    computed: {
+        employeeModel: {
+            get() {
+                return this.selectedItem || this.newValue;
+            },
+            set(value) {
+                if (this.selectedItem) {
+                    this.selectedItem = value;
+                } else {
+                    this.newValue = value;
+                }
+            }
+        }
+    },
     created(){
         this.init()
         this.dataService = new DataService();
@@ -137,6 +158,15 @@ export default {
         this.exportService.cancelExcelExport();
     },
     methods:{
+        editSelectedRow() {
+            const flexGrid = this.$refs.flexGrid;
+            const view = flexGrid.collectionView;
+
+            if (view.currentItem) {
+                this.selectedItem = view.currentItem;
+                this.openDialog = true;
+            }
+        },
         async deleteSelectedRows() {
             try {
                 if (!this.offline) {
