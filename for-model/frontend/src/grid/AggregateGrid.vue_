@@ -4,8 +4,9 @@ path: frontend/src/grid
 ---
 <template>
     <div class="container-fluid">
-        <v-btn @click="deleteSelectedRows">삭제</v-btn>
+        <v-btn @click="addNewRow">등록</v-btn>
         <v-btn @click="editSelectedRow">수정</v-btn>
+        <v-btn @click="deleteSelectedRows">삭제</v-btn>
         {{#contexts.views}}
         <{{namePascalCase}}Query @search="search"></{{namePascalCase}}Query>
         {{/contexts.views}}
@@ -81,7 +82,7 @@ path: frontend/src/grid
                 </v-dialog>
                 <v-btn color="blue" fab dark large
                     style="position:fixed; bottom: 5%; right: 2%; z-index:99"
-                    @click="openDialog=true;"
+                    @click="addNewRow"
                 >
                     <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -160,12 +161,18 @@ export default {
         this.exportService.cancelExcelExport();
     },
     methods:{
+        addNewRow() {
+            this.selectedItem = null;
+            this.openDialog = true;
+        },
         editSelectedRow() {
             const flexGrid = this.$refs.flexGrid;
             const view = flexGrid.collectionView;
 
             if (view.currentItem) {
-                this.selectedItem = view.currentItem;
+                this.selectedItem = null;
+                this.selectedItem = JSON.parse(JSON.stringify(view.currentItem));
+                this.edit(this.selectedItem);
                 this.openDialog = true;
             }
         },

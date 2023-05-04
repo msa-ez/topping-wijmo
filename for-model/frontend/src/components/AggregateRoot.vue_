@@ -37,12 +37,7 @@ path: frontend/src/components
             {{/checkListOfEntityMember}}
             {{/if}}
             {{/if}}
-        {{/aggregateRoot.fieldDescriptors}}
-            <EventViewer
-                v-if="value._links && value._links.events"
-                :src="value._links.events.href"
-            >
-            </EventViewer>
+            {{/aggregateRoot.fieldDescriptors}}
         </v-card-text>
 
         <v-card-actions>

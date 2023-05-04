@@ -23,6 +23,7 @@ path: frontend/src/components
         methods:{
             closeDialog(){
                 this.openDialog = false
+                location.reload()
             },
             append(value){
                 this.tick = false
