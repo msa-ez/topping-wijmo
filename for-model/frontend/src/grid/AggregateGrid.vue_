@@ -40,9 +40,11 @@ path: frontend/src/grid
         >
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}'{{nameCamelCase}}',{{/aggregateRoot.fieldDescriptors}}]" />
             {{#aggregateRoot.fieldDescriptors}}
+            {{#if (isNotId nameCamelCase)}}
             {{#if referenceClass}}
             {{else}}
             <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            {{/if}}
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
             {{#outgoingRelations}}
@@ -332,5 +334,9 @@ this.boundedContext.readModels.forEach(view=>{
     if(view.aggregate == me && view.dataProjection=="query-for-aggregate"){
         me.contexts.views.push(view);
     }
+})
+
+window.$HandleBars.registerHelper('isNotId', function (className) {
+    return (className != 'id')
 })
 </function>
