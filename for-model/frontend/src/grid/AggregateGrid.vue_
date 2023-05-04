@@ -40,18 +40,18 @@ path: frontend/src/grid
             :initialized="flexInitialized"
         >
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}'{{nameCamelCase}}',{{/if}}{{/aggregateRoot.fieldDescriptors}}]" />
-            <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" align="center" />
             {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
             {{#if referenceClass}}
             {{else}}
-            <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" align="center" />
             {{/if}}
             {{/if}}
             {{/aggregateRoot.fieldDescriptors}}
             {{#outgoingRelations}}
             {{#target}}
-            <wj-flex-grid-column binding="{{nameCamelCase}}Id.{{#aggregateRoot}}{{#fieldDescriptors}}{{#if isName}}{{name}}{{/if}}{{/fieldDescriptors}}{{/aggregateRoot}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" />
+            <wj-flex-grid-column binding="{{nameCamelCase}}Id.{{#aggregateRoot}}{{#fieldDescriptors}}{{#if isName}}{{name}}{{/if}}{{/fieldDescriptors}}{{/aggregateRoot}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" align="center" />
             {{/target}}
             {{/outgoingRelations}}
         </wj-flex-grid>
