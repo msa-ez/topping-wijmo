@@ -64,7 +64,7 @@ path: frontend/src/grid
                         class="video-card"
                         :isNew="!selectedItem"
                         :editMode="true"
-                        v-model="employeeModel"
+                        v-model="{{nameCamelCase}}Model"
                         @add="append"
                     />
                     <v-btn
@@ -122,7 +122,7 @@ export default {
         selectedItem: null,
     }),
     computed: {
-        employeeModel: {
+        {{nameCamelCase}}Model: {
             get() {
                 return this.selectedItem || this.newValue;
             },
