@@ -317,6 +317,9 @@ export default {
                 {{/aggregateRoot.fieldDescriptors}}
             });
             await Promise.all(Promises);
+            for(var i = 0; i < lists.length ; i++ ) {
+                lists[i].index = i;
+            }
             me.values = lists;
         },
         selectFile(){
