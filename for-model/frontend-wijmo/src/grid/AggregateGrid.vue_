@@ -81,12 +81,6 @@ path: frontend-wijmo/src/grid
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-dialog>
-                <v-btn color="blue" fab dark large
-                    style="position:fixed; bottom: 5%; right: 2%; z-index:99"
-                    @click="addNewRow"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
             </div>
         </v-col>
     </div>
