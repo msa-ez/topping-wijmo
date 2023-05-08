@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-wijmo
   labels:
-    app: frontend
+    app: frontend-wijmo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-wijmo
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-wijmo
     spec:
       containers:
-        - name: frontend
-          image: username/frontend:latest
+        - name: frontend-wijmo
+          image: username/frontend-wijmo:latest
           ports:
             - containerPort: 8080
           readinessProbe:
