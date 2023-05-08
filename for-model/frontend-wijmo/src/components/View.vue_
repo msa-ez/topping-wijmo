@@ -1,6 +1,6 @@
 forEach: View
 fileName: {{namePascalCase}}View.vue
-path: frontend/src/components
+path: frontend-wijmo/src/components
 except: {{contexts.isNotCQRS}}
 ---
 

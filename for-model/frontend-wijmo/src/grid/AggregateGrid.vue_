@@ -1,6 +1,6 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}Grid.vue
-path: frontend/src/grid
+path: frontend-wijmo/src/grid
 ---
 <template>
     <div class="container-fluid">

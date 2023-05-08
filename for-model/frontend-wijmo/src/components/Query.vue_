@@ -1,6 +1,6 @@
 forEach: View
 fileName: {{namePascalCase}}Query.vue
-path: frontend/src/components
+path: frontend-wijmo/src/components
 except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/ifEquals}}
 
 ---

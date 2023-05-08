@@ -1,5 +1,5 @@
 fileName: EventViewer.vue
-path: frontend/src/components/vo
+path: frontend-wijmo/src/components/vo
 ---
 <template>
     <v-expansion-panels>

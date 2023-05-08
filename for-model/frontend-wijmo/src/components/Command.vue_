@@ -1,6 +1,6 @@
 forEach: Command
 fileName: {{namePascalCase}}Command.vue
-path: frontend/src/components
+path: frontend-wijmo/src/components
 ---
 <template>
 

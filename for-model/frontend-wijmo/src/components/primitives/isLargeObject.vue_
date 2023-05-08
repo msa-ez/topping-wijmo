@@ -1,5 +1,5 @@
 fileName: LargeObject.vue
-path: frontend/src/components/primitives
+path: frontend-wijmo/src/components/primitives
 ---
 <template>
     <div>

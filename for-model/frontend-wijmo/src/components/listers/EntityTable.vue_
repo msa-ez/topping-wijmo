@@ -1,6 +1,6 @@
 forEach: Entity
 fileName: {{namePascalCase}}Table.vue
-path: frontend/src/components/listers
+path: frontend-wijmo/src/components/listers
 ---
 <template>
 
