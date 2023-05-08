@@ -1,6 +1,6 @@
 forEach: Model
 fileName: package.json
-path: for-model/frontend-wijmo
+path: for-model/frontend
 ---
 {
   "name": "my-app",

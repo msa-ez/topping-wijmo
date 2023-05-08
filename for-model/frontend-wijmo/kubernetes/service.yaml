@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-wijmo
+  name: frontend
   labels:
-    app: frontend-wijmo
+    app: frontend
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    app: frontend-wijmo
+    app: frontend
