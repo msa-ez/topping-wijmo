@@ -19,7 +19,6 @@ path: frontend-wijmo/src/components/primitives
                             :label="label"
                             prepend-icon="mdi-calendar"
                             readonly
-                            v-bind="attrs"
                             v-on="on"
                     ></v-text-field>
                 </template>
