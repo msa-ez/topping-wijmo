@@ -4,7 +4,13 @@ path: frontend-wijmo/src/components/primitives
 <template>
     <div>
         <div v-if="editMode" style="margin-top:-20px;">
-            <v-text-field type="number" :label="label" v-model="value" @change="change"/>
+            <v-text-field
+                v-bind="$attrs"
+                type="number"
+                :label="label"
+                v-model="value"
+                @change="change"
+            />
         </div>
         <div v-else>
             \{{label}} :  \{{value}}
@@ -21,7 +27,6 @@ path: frontend-wijmo/src/components/primitives
                 default: 0
             },
             editMode: Boolean,
-            label: String
         },
         methods:{
             change(){
