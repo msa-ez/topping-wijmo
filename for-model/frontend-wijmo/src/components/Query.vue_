@@ -5,48 +5,51 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
 
 ---
 <template>
-
-    <v-card outlined style="border-radius: 0;">
+    <v-card outlined style="border-radius: 0; max-height:15vh; margin-top:-10px;">
         <v-card-title>
             {{namePascalCase}}
         </v-card-title>
     
         <v-card-text>
-            <v-row style="margin-top: 15px;">
+            <v-row no-gutters style="margin-top: 15px; margin-bottom:-30px;">
                 {{#queryParameters}}
                 {{#if (isPrimitive className)}}
-                <{{getPrimitiveType className}} class="attributes-list" label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
+                <v-col style="max-width:140px;">
+                    <{{getPrimitiveType className}} class="attributes-list" label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
+                </v-col>
                 {{else}}
                 {{#checkVO className}}
-                <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                <v-col style="max-width:140px;">
+                    <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                </v-col>
                 {{/checkVO}}
                 {{#checkEntityMember className}}
-                <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                <v-col style="max-width:140px;">
+                    <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                </v-col>
                 {{/checkEntityMember}}
                 {{#checkListOfEntityMember className}}
-                <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                <v-col style="max-width:140px;">
+                    <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                </v-col>
                 {{/checkListOfEntityMember}}
                 {{/if}}
                 {{/queryParameters}}
+                <v-col>
+                    <v-btn class="gs-query-search-btn"
+                        @click="search"
+                        flat
+                        small
+                    >
+                        <v-icon small>mdi-magnify</v-icon>검색
+                    </v-btn>
+                </v-col>
             </v-row>
         </v-card-text>
-
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                @click="search"
-                flat
-                style="color:white; background-color: #9A7BCF; border-radius: 0;"
-            >
-                <v-icon>mdi-magnify</v-icon>Search
-            </v-btn>
-        </v-card-actions>
     </v-card>
-
 </template>
 
 <script>
-   
     export default {
         name: '{{namePascalCase}}Query',
         components:{},
@@ -86,7 +89,6 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
 
 
 <function>
-
 //if(this.queryParameters!=null) alert(this.queryParameters)
 
     window.$HandleBars.registerHelper('print', function (value) {

@@ -15,11 +15,12 @@ path: frontend-wijmo/src/components/primitives
             >
                 <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                            v-model="date"
-                            :label="label"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-on="on"
+                        v-bind="attrs"
+                        v-model="date"
+                        :label="label"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-on="on"
                     ></v-text-field>
                 </template>
                 <v-date-picker
