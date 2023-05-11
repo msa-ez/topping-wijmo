@@ -3,7 +3,7 @@ fileName: {{namePascalCase}}Grid.vue
 path: frontend-wijmo/src/grid
 ---
 <template>
-    <div style="max-height:90vh;">
+    <div style="max-height:80vh;">
         <div class="gs-bundle-of-buttons" style="max-height:10vh;">
             <v-btn @click="addNewRow" small>
                 <v-icon small>mdi-plus-circle-outline</v-icon>등록
@@ -267,10 +267,6 @@ export default {
 
     .toolbar-item {
         margin-bottom: 6px;
-    }
-
-    .wj-flexgrid {
-        height: 330px;
     }
 
     .wj-flexgrid .wj-cell {
