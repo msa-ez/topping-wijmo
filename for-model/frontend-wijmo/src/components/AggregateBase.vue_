@@ -7,6 +7,12 @@ path: frontend-wijmo/src/components
 </template>
 
 <script>
+    import {{namePascalCase}}Base from '../components/{{namePascalCase}}Base.vue'
+    {{#aggregateRoot.fieldDescriptors}}
+    {{#if referenceClass}}
+    import {{referenceClass}}Base from '../components/{{referenceClass}}Base.vue'
+    {{/if}}
+    {{/aggregateRoot.fieldDescriptors}}
     const axios = require('axios').default;
 
     export default{
