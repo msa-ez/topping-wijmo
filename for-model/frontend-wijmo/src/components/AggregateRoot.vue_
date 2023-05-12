@@ -159,6 +159,8 @@ path: frontend-wijmo/src/components
 <script>
 const axios = require('axios').default;
 
+import {{namePascalCase}}Base from '../components/{{namePascalCase}}Base.vue'
+
 import { RSocketClient } from 'rsocket-core';
 import RSocketWebSocketClient from 'rsocket-websocket-client';
 import { IdentitySerializer, JsonSerializer } from "rsocket-core/build";
