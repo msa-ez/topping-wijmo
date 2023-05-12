@@ -298,28 +298,6 @@ export default {
         async init() {
             var me = this;
             let lists = await me.search();
-            {{#aggregateRoot.fieldDescriptors}}
-            {{#if referenceClass}}
-            let {{referenceClass}}Class = me.$Vue.extend({{referenceClass}}Base);
-            me.{{nameCamelCase}} = new {{referenceClass}}Class();
-            {{/if}}
-            {{/aggregateRoot.fieldDescriptors}}
-            
-
-            let Promises = lists.map(async function (value) {
-                if(value == null) return
-                {{#aggregateRoot.fieldDescriptors}}
-                {{#if referenceClass}}
-                if (value.{{nameCamelCase}} && value.{{nameCamelCase}}.id){
-                    value.{{nameCamelCase}} = await me.{{nameCamelCase}}.getRealEntity(value.{{nameCamelCase}}.id);
-                }
-                {{/if}}
-                {{/aggregateRoot.fieldDescriptors}}
-            });
-            await Promise.all(Promises);
-            for(var i = 0; i < lists.length ; i++ ) {
-                lists[i].index = i;
-            }
             me.values = lists;
         },
         selectFile(){

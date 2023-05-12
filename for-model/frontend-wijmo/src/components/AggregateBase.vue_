@@ -56,6 +56,32 @@ path: frontend-wijmo/src/components
                     return null;
                 }
             },
+            async processData(data){
+                {{#aggregateRoot.fieldDescriptors}}
+                {{#if referenceClass}}
+                let {{referenceClass}}Class = this.$Vue.extend({{referenceClass}}Base);
+                this.{{nameCamelCase}} = new {{referenceClass}}Class();
+                {{/if}}
+                {{/aggregateRoot.fieldDescriptors}}
+                
+
+                let Promises = data.map(async function (value) {
+                    if(value == null) return
+                    {{#aggregateRoot.fieldDescriptors}}
+                    {{#if referenceClass}}
+                    if (value.{{nameCamelCase}} && value.{{nameCamelCase}}.id){
+                        value.{{nameCamelCase}} = await this.{{nameCamelCase}}.getRealEntity(value.{{nameCamelCase}}.id);
+                    }
+                    {{/if}}
+                    {{/aggregateRoot.fieldDescriptors}}
+                });
+                await Promise.all(Promises);
+                for(var i = 0; i < data.length ; i++ ) {
+                    data[i].index = i;
+                }
+                return data;
+
+            },
             async search(query) {
                 var me = this;
                 if(me.offline){
@@ -64,16 +90,27 @@ path: frontend-wijmo/src/components
                 } 
                 var temp = null;
                 if(query!=null){
-                    temp = await axios.get(axios.fixUrl('/{{namePlural}}/' + query.apiPath), {params: query.parameters})
+                    temp = await axios.put(axios.fixUrl('/{{namePlural}}/search/{{#contexts.views}}{{#queryOption}}{{apiPath}}{{/queryOption}}{{/contexts.views}}'), { {{#contexts.views}}{{#queryParameters}}{{nameCamelCase}}: query.parameters.{{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}{{/contexts.views}} });
+                    me.values = await me.processData(temp.data);
                 }else{
                     temp = await axios.get(axios.fixUrl('/{{namePlural}}'))
+                    me.values = await me.processData(temp.data._embedded.{{namePlural}});
                 }
-                let {{namePlural}} = temp.data._embedded.{{namePlural}}
-                
-                return {{namePlural}};
+                return me.values;
             },
         },
 
     }
 
 </script>
+
+<function>
+    var me = this;
+    me.contexts.views = [];
+    if(this.boundedContext.readModels)
+    this.boundedContext.readModels.forEach(view=>{
+        if(view.aggregate == me && view.dataProjection=="query-for-aggregate"){
+            me.contexts.views.push(view);
+        }
+    })
+</function>
