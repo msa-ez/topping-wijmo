@@ -33,6 +33,7 @@ path: frontend-wijmo/src/grid
             :validateEdits="false"
             :itemsSource="values"
             :initialized="flexInitialized"
+            :selectionChanged="onSelectionChanged"
             style="margin-top:10px; max-height:65vh;"
         >
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}'{{nameCamelCase}}',{{/if}}{{/aggregateRoot.fieldDescriptors}}]" />
