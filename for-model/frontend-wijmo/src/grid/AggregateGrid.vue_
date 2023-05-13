@@ -95,7 +95,7 @@ import {{namePascalCase}}Query from '../components/{{namePascalCase}}Query.vue';
 import {{namePascalCase}} from '../components/{{namePascalCase}}.vue'
 {{#aggregateRoot.fieldDescriptors}}
 {{#if isList}}
-import {{namePascalCase}} from './{{namePascalCase}}.vue'
+import {{namePascalCase}}DetailGrid from './{{namePascalCase}}DetailGrid.vue'
 {{/if}}
 {{/aggregateRoot.fieldDescriptors}}
 
