@@ -40,7 +40,14 @@ path: frontend-wijmo/src/grid
             <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" align="center" />
             {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
-            {{#if referenceClass}}
+            {{#if isList}}
+            <wj-flex-grid-column binding="{{nameCamelCase}}[0].name" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" align="center" />
+            {{/if}}
+            {{/if}}
+            {{/aggregateRoot.fieldDescriptors}}
+            {{#aggregateRoot.fieldDescriptors}}
+            {{#if (isNotId nameCamelCase)}}
+            {{#if isVO}}
             {{else}}
             <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" align="center" />
             {{/if}}
