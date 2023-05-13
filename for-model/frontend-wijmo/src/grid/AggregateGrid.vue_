@@ -51,6 +51,11 @@ path: frontend-wijmo/src/grid
             {{/target}}
             {{/outgoingRelations}}
         </wj-flex-grid>
+        {{#aggregateRoot.fieldDescriptors}}
+        {{#if isList}}
+        <{{nameCamelCase}}DetailGrid :selectedGrid="selectedGrid" />
+        {{/if}}
+        {{/aggregateRoot.fieldDescriptors}}
         <v-col style="margin-bottom:40px;">
             <div class="text-center">
                 <v-dialog
@@ -87,6 +92,11 @@ path: frontend-wijmo/src/grid
 import {{namePascalCase}}Query from '../components/{{namePascalCase}}Query.vue';
 {{/contexts.views}}
 import {{namePascalCase}} from '../components/{{namePascalCase}}.vue'
+{{#aggregateRoot.fieldDescriptors}}
+{{#if isList}}
+import {{namePascalCase}} from './{{namePascalCase}}.vue'
+{{/if}}
+{{/aggregateRoot.fieldDescriptors}}
 
 const axios = require('axios').default;
 
@@ -104,16 +114,22 @@ import * as wjcCore from "@grapecity/wijmo";
 export default {
     name : '{{nameCamelCase}}-grid',
     mixins:[{{namePascalCase}}],
-    componets:{
+    components:{
         {{#contexts.views}}
         {{namePascalCase}}Query,
         {{/contexts.views}}
-        {{namePascalCase}}
+        {{namePascalCase}},
+        {{#aggregateRoot.fieldDescriptors}}
+        {{#if isList}}
+        {{namePascalCase}}DetailGrid,
+        {{/if}}
+        {{/aggregateRoot.fieldDescriptors}}
     },
     data: () => ({
         tick : true,
         openDialog : false,
         selectedItem: null,
+        selectedGrid: null,
     }),
     computed: {
         {{nameCamelCase}}Model: {
@@ -152,6 +168,30 @@ export default {
         this.exportService.cancelExcelExport();
     },
     methods:{
+        flexInitialized(flexGrid) {
+            this.$refs.flexGrid = flexGrid;
+            let sd = new wjcCore.SortDescription("country", true);
+            flexGrid.collectionView.sortDescriptions.push(sd);
+            flexGrid.collectionView.currentChanged.addHandler(
+                this._updateCurrentInfo.bind(this)
+            );
+            this._updateCurrentInfo();
+        },
+        onSelectionChanged(s) {
+            let selectedItem = s.collectionView.currentItem;
+            if (selectedItem) {
+                this.selectedGrid = selectedItem.employeeUser;
+                this.selectedGrid = this.selectedGrid.map((user, index) => {
+                    return { ...user, index: index };
+                });
+
+            } else {
+                this.selectedGrid = [];
+            }
+            this.$nextTick(() => {
+                this.$refs.flexGridDetails.refresh();
+            });
+        },
         addNewRow() {
             this.selectedItem = null;
             this.openDialog = true;
@@ -212,16 +252,6 @@ export default {
         },
         getFlex: function () {
             return this.flex;
-        },
-        flexInitialized: function(flexGrid) {
-            this.flex = flexGrid;
-            this.$refs.flexGrid = flexGrid;
-            let sd = new wjcCore.SortDescription("country", true);
-            flexGrid.collectionView.sortDescriptions.push(sd);
-            flexGrid.collectionView.currentChanged.addHandler(
-                this._updateCurrentInfo.bind(this)
-            );
-            this._updateCurrentInfo();
         },
         departmentId(href){
             if(href){
