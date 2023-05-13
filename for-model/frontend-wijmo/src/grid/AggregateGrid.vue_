@@ -53,7 +53,7 @@ path: frontend-wijmo/src/grid
         </wj-flex-grid>
         {{#aggregateRoot.fieldDescriptors}}
         {{#if isList}}
-        <{{nameCamelCase}}DetailGrid :selectedGrid="selectedGrid" />
+        <{{namePascalCase}}DetailGrid :selectedGrid="selectedGrid" />
         {{/if}}
         {{/aggregateRoot.fieldDescriptors}}
         <v-col style="margin-bottom:40px;">
