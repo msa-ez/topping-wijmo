@@ -1,5 +1,5 @@
 forEach: ValueObject
-fileName: {{namePascalCase}}DetailGrid.vue
+fileName: {{namePascalCase}}sDetailGrid.vue
 path: frontend-wijmo/src/grid
 ---
 <template>
