@@ -70,7 +70,7 @@ path: frontend-wijmo/src/components
                 {{/aggregateRoot.fieldDescriptors}}
                 
 
-                let Promises = data.map(async function (value) {
+                let Promises = data.map(async (value) => {
                     if(value == null) return
                     {{#aggregateRoot.fieldDescriptors}}
                     {{#if referenceClass}}
