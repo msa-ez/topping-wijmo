@@ -130,7 +130,7 @@ path: frontend-wijmo/src/components/listers
                 if(val != undefined) {
                     var uriParts = this.list[val]._links.self.href.split('/');
                     {{#aggregateRoot.fieldDescriptors}}
-                    {{#isKey}}obj['{{nameCamelCase}}'] = Number(uriParts.pop()); {{/isKey}}
+                    {{#isKey}}obj = Number(uriParts.pop()); {{/isKey}}
                     {{/aggregateRoot.fieldDescriptors}}
                     this.referenceValue = this.list[val];
                     
