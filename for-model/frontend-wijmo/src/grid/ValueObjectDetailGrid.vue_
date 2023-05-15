@@ -20,7 +20,9 @@ path: frontend-wijmo/src/grid
         <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" align="center" />
         {{#fieldDescriptors}}
         {{#if (isNotId nameCamelCase)}}
+        {{#if (isNotName nameCamelCase)}}
         <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{nameCamelCase}}" width="2*" :isReadOnly="true" align="center" />
+        {{/if}}
         {{/if}}
         {{/fieldDescriptors}}
     </wj-flex-grid>
