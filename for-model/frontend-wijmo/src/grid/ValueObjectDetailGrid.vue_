@@ -50,6 +50,9 @@ export default {
 
 
 <function>
+    window.$HandleBars.registerHelper('isNotName', function (className) {
+        return (className != 'name')
+    })
     window.$HandleBars.registerHelper('isNotId', function (className) {
         return (className != 'id')
     })
