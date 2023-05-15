@@ -128,13 +128,16 @@ path: frontend-wijmo/src/components/listers
             select(val) {
                 var obj = {}
                 if(val != undefined) {
-                    var arr = this.list[val]._links.self.href.split('/');
+                    var uriParts = this.list[val]._links.self.href.split('/');
                     {{#aggregateRoot.fieldDescriptors}}
-                    {{#isKey}}obj['{{nameCamelCase}}'] = arr[4]; {{/isKey}}
+                    {{#isKey}}obj['{{nameCamelCase}}'] = Number(uriParts.pop()); {{/isKey}}
                     {{/aggregateRoot.fieldDescriptors}}
-                    this.$emit('selected', obj);
                     this.referenceValue = this.list[val];
+                    
+                } else {
+                    this.referenceValue = null;
                 }
+                this.$emit('selected', obj);
             },
         },
     };
