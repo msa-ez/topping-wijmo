@@ -188,7 +188,7 @@ export default {
         onSelectionChanged(s) {
             let selectedItem = s.collectionView.currentItem;
             if (selectedItem) {
-                this.selectedGrid = selectedItem.{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}{{#if isList}}{{nameCamelCase}}{{/if}}{{/if}}{{/aggregateRoot.fieldDescriptors}};
+                this.selectedGrid = selectedItem{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}{{#if isList}}.{{nameCamelCase}}{{/if}}{{/if}}{{/aggregateRoot.fieldDescriptors}};
                 this.selectedGrid = this.selectedGrid.map((user, index) => {
                     return { ...user, index: index };
                 });
