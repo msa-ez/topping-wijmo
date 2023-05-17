@@ -160,16 +160,6 @@ path: frontend-wijmo/src/components
 const axios = require('axios').default;
 
 import {{namePascalCase}}Base from '../components/{{namePascalCase}}Base.vue'
-{{#aggregateRoot.fieldDescriptors}}
-{{#if (isNotId nameCamelCase)}}
-{{#if (isPrimitive className)}}
-{{else}}
-{{#checkListOfEntityMember className}}
-import {{getEntityClassNameOfList className}} from ./{{getEntityClassNameOfList className}}.vue
-{{/checkListOfEntityMember}}
-{{/if}}
-{{/if}}
-{{/aggregateRoot.fieldDescriptors}}
 
 import { RSocketClient } from 'rsocket-core';
 import RSocketWebSocketClient from 'rsocket-websocket-client';
@@ -181,7 +171,7 @@ import { IdentitySerializer, JsonSerializer } from "rsocket-core/build";
 {{#if (isPrimitive className)}}
 {{else}}
 {{#checkVO className}}
-import {{className}} from './{{className}}.vue';
+import {{className}} from './vo/{{className}}.vue';
 {{/checkVO}}
 {{/if}}
 {{/if}}
