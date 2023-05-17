@@ -134,6 +134,7 @@ export default {
         {{/aggregateRoot.fieldDescriptors}}
     },
     data: () => ({
+        flex: null,
         tick : true,
         openDialog : false,
         selectedItem: null,
@@ -177,6 +178,7 @@ export default {
     },
     methods:{
         flexInitialized(flexGrid) {
+            this.flex = flexGrid;
             this.$refs.flexGrid = flexGrid;
             let sd = new wjcCore.SortDescription("country", true);
             flexGrid.collectionView.sortDescriptions.push(sd);
