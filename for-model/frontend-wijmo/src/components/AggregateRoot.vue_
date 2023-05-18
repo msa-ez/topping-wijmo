@@ -26,9 +26,6 @@ path: frontend-wijmo/src/components
             {{#if (isPrimitive className)}}
             <{{getPrimitiveType className}} label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
             {{else}}
-            {{#checkVO className}}
-            <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
-            {{/checkVO}}
             {{#checkEntityMember className}}
             <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkEntityMember}}
@@ -166,31 +163,11 @@ import RSocketWebSocketClient from 'rsocket-websocket-client';
 import { IdentitySerializer, JsonSerializer } from "rsocket-core/build";
 
 
-{{#aggregateRoot.fieldDescriptors}}
-{{#if (isNotId nameCamelCase)}}
-{{#if (isPrimitive className)}}
-{{else}}
-{{#checkVO className}}
-import {{className}} from './vo/{{className}}.vue';
-{{/checkVO}}
-{{/if}}
-{{/if}}
-{{/aggregateRoot.fieldDescriptors}}
 
 export default {
     name: '{{namePascalCase}}',
     mixins:[{{namePascalCase}}Base],
     components:{
-    {{#aggregateRoot.fieldDescriptors}}
-        {{#if (isNotId nameCamelCase)}}
-        {{#if (isPrimitive className)}}
-        {{else}}
-        {{#checkVO className}}
-        {{className}},
-        {{/checkVO}}
-        {{/if}}
-        {{/if}}
-    {{/aggregateRoot.fieldDescriptors}}
     },
     props: {
         value: [Object, String, Number, Boolean, Array],
@@ -519,13 +496,6 @@ export default {
             return "Boolean";
         } else if(className.includes("Date")) {
             return "Date";
-        }
-    })
-
-    window.$HandleBars.registerHelper('checkVO', function (className, options) {
-        if(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
-                || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")){
-            return options.fn(this);
         }
     })
 
