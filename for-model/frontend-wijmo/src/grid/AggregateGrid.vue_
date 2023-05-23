@@ -79,7 +79,7 @@ path: frontend-wijmo/src/grid
                         class="elevation-0"
                         height="50px"
                     >
-                        <div style="color:white; font-size:17px; font-weight:700;">{{namePascalCase}} 등록</div>
+                        <div style="color:white; font-size:17px; font-weight:700;">사용자 등록</div>
                         <v-spacer></v-spacer>
                         <v-icon
                             color="white"
@@ -90,7 +90,6 @@ path: frontend-wijmo/src/grid
                     <v-card-text>
                     <div>
                         <{{namePascalCase}} :offline="offline"
-                            class="video-card"
                             :isNew="!selectedItem"
                             :editMode="true"
                             v-model="{{nameCamelCase}}Model"
@@ -104,6 +103,27 @@ path: frontend-wijmo/src/grid
                 </v-card>
                 </template>
             </v-dialog>
+        </v-col>
+        <v-col style="margin-bottom:40px;">
+            <div class="text-center">
+                <v-dialog
+                    width="332.5"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
+                >
+                    
+                    <v-btn
+                        style="position:absolute; top:2%; right:2%"
+                        @click="closeDialog()"
+                        depressed
+                        icon 
+                        absolute
+                    >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-dialog>
+            </div>
         </v-col>
     </div>
 </template>
@@ -322,8 +342,8 @@ export default {
         margin-bottom: 6px;
     }
 
-    .wj-flexgrid .wj-cell {
-        padding: 7px;
+    .wj-felx-grid .wj-flexgrid .wj-cell {
+        padding: 3px;
         border:none;
     }
 
