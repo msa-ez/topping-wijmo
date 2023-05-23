@@ -10,35 +10,37 @@ path: frontend-wijmo/src/components
     {{/referenceClass}}
 
     {{^referenceClass}}
-    <v-card outlined>
-        <v-card-title>
-            {{namePascalCase}}
-        </v-card-title>
+    <div>
+        <div class="detail-title">
+        {{namePascalCase}}
+        </div>
 
-        <v-card-text>
-        {{#fieldDescriptors}}
-        {{#if (isNotId nameCamelCase)}}
-        {{#if (isPrimitive className)}}
-            <{{getPrimitiveType className}} label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
-        {{else}}
-        {{#checkVO className}}
-            <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
-        {{/checkVO}}
-        {{#checkEntityMember className}}
-            <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
-        {{/checkEntityMember}}
-        {{#checkListOfEntityMember className}}
-            <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
-        {{/checkListOfEntityMember}}
-        {{/if}}
-        {{/if}}
-        {{/fieldDescriptors}}
-        </v-card-text>
+        <v-row style="padding-right:15px;">
+            {{#fieldDescriptors}}
+            {{#if (isNotId nameCamelCase)}}
+            {{#if (isPrimitive className)}}
+            <v-col cols="6">
+                <div style="display:flex;">
+                    <div class="label-title">{{namePascalCase}}</div>
+                    <div class="label-title-star">*</div>
+                    <{{getPrimitiveType className}} label="입력하세요." v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
+                </div>
+            {{else}}
+            {{#checkEntityMember className}}
+                <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            {{/checkEntityMember}}
+            {{#checkListOfEntityMember className}}
+                <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            {{/checkListOfEntityMember}}
+            {{/if}}
+            {{/if}}
+            {{/fieldDescriptors}}
+        </v-row>
 
         <v-card-actions v-if="inList">
             <slot name="actions"></slot>
         </v-card-actions>
-    </v-card>
+    </div>
     {{/referenceClass}}
 </template>
 
@@ -166,13 +168,6 @@ path: frontend-wijmo/src/components
             return "Boolean";
         } else if(className.includes("Date")) {
             return "Date";
-        }
-    })
-
-    window.$HandleBars.registerHelper('checkVO', function (className, options) {
-        if(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
-                || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating") ){
-            return options.fn(this);
         }
     })
 

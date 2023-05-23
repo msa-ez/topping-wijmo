@@ -77,3 +77,10 @@
 .v-text-field.v-text-field--enclosed .v-text-field__details {
     display:none;
 }
+
+.detail-title {
+    margin-left:15px;
+    color:black;
+    font-size:14px;
+    font-weight:700;
+}

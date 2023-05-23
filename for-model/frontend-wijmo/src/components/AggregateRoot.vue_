@@ -13,9 +13,9 @@ path: frontend-wijmo/src/components
                 {{#if (isPrimitive className)}}
                 <v-col cols="6">
                     <div style="display:flex;">
-                        <div class="label-title">아이디</div>
+                        <div class="label-title">{{namePascalCase}}</div>
                         <div class="label-title-star">*</div>
-                        <{{getPrimitiveType className}} label="입력하세요" v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
+                        <{{getPrimitiveType className}} label="입력하세요." v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
                     </div>
                 </v-col>
                 {{else}}
@@ -69,7 +69,7 @@ path: frontend-wijmo/src/components
                 저장
             </v-btn>
         </v-layout>
-        
+
         <v-snackbar
             v-model="snackbar.status"
             :top="true"
