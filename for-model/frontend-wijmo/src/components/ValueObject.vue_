@@ -25,6 +25,7 @@ path: frontend-wijmo/src/components
                     <div class="label-title-star">*</div>
                     <{{getPrimitiveType className}} label="입력하세요." v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
                 </div>
+            </v-col>
             {{else}}
             {{#checkEntityMember className}}
                 <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
