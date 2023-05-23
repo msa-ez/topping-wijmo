@@ -4,63 +4,16 @@ path: frontend-wijmo/src/components/listers
 ---
 <template>
     <div>
-        <v-card-title @click="openDialog" style="cursor: pointer;">
-            {{namePascalCase}} : {{#aggregateRoot.fieldDescriptors}}{{#isName}} \{{referenceValue ? referenceValue.{{nameCamelCase}} : '' }} {{/isName}}{{/aggregateRoot.fieldDescriptors}}
-        </v-card-title>
-
-        <v-dialog v-model="pickerDialog">
-            <v-card>
-                <v-card-title>{{namePascalCase}}</v-card-title>
-                <v-card-text>
-                    <v-list two-line v-if="list.length > 0">
-                        <v-list-item-group 
-                                v-model="selected" 
-                                color="indigo"
-                                @change="select"
-                        >
-                            <v-list-item v-for="(item, idx) in list" :key="idx">
-                                <template v-slot:default="{ active }">
-                                    <v-list-item-avatar color="grey darken-1">
-                                    {{#aggregateRoot.fieldDescriptors}}
-                                        {{#isLob}}
-                                        <v-img :src="item.{{nameCamelCase}}"></v-img>
-                                        {{/isLob}}
-                                    {{/aggregateRoot.fieldDescriptors}}
-                                    </v-list-item-avatar>
-                                    
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                        {{#aggregateRoot.fieldDescriptors}}
-                                        {{#isName}}
-                                            \{{item.{{nameCamelCase}} }}
-                                        {{/isName}}
-                                        {{/aggregateRoot.fieldDescriptors}}
-                                        </v-list-item-title>
-                                        {{#aggregateRoot.fieldDescriptors}}
-                                        {{#if (isNotId nameCamelCase)}}
-                                        {{^isLob}}
-                                        <v-list-item-subtitle>
-                                            {{namePascalCase}} :  \{{item.{{nameCamelCase}} }}
-                                        </v-list-item-subtitle>
-                                        {{/isLob}}
-                                        {{/if}}
-                                        {{/aggregateRoot.fieldDescriptors}}
-                                    </v-list-item-content>
-
-                                    <v-list-item-action>
-                                        <v-checkbox :input-value="active" color="indigo"></v-checkbox>
-                                    </v-list-item-action>
-                                </template>
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="deep-purple lighten-2" text @click="pickerDialog = false">Close</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <v-select
+            :items="list"
+            item-text="name"
+            item-value="name"
+            label="{{namePascalCase}}"
+            return-object
+            v-model="selected"
+            @change="select"
+            solo
+        ></v-select>
     </div>
 </template>
 
@@ -78,7 +31,6 @@ path: frontend-wijmo/src/components/listers
             list: [],
             selected: null,
             referenceValue: null,
-            pickerDialog: false,
         }),
         async created() {
             var me = this;
@@ -106,38 +58,24 @@ path: frontend-wijmo/src/components/listers
                 if(tmpValue.data) {
                     var val = tmpValue.data
                     {{#aggregateRoot.fieldDescriptors}}
-                    {{#isName}}me.selected = me.list.findIndex((item) => item.{{nameCamelCase}} == val.{{nameCamelCase}}){{/isName}}
+                    {{#isName}}me.selected = me.list.find((item) => item.{{nameCamelCase}} == val.{{nameCamelCase}}){{/isName}}
                     {{/aggregateRoot.fieldDescriptors}}
                     me.referenceValue = val
                 }
             }
         },
         methods: {
-            openDialog() {
-                if (this.editMode) {
-                    this.pickerDialog = true
-                } else {
-                    {{#aggregateRoot.fieldDescriptors}}
-                    {{#isKey}}var idKey = '{{nameCamelCase}}'{{/isKey}}
-                    {{/aggregateRoot.fieldDescriptors}}
-                    var id = this.value[idKey];
-                    var path = '/{{#toURL namePascalCase}}{{/toURL}}/';
-                    this.$router.push(path + id);
-                }
-            },
             select(val) {
-                var obj = {}
-                if(val != undefined) {
-                    var uriParts = this.list[val]._links.self.href.split('/');
+                this.referenceValue = val;
+                if (val) {
+                    var uriParts = val._links.self.href.split('/');
                     {{#aggregateRoot.fieldDescriptors}}
-                    {{#isKey}}obj = Number(uriParts.pop()); {{/isKey}}
+                    {{#isKey}}var obj = Number(uriParts.pop());{{/isKey}}
                     {{/aggregateRoot.fieldDescriptors}}
-                    this.referenceValue = this.list[val];
-                    
+                    this.$emit('input', obj);
                 } else {
-                    this.referenceValue = null;
+                    this.$emit('input', null);
                 }
-                this.$emit('selected', obj);
             },
         },
     };
