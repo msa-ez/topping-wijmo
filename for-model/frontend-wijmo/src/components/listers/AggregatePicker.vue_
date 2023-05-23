@@ -17,7 +17,6 @@ path: frontend-wijmo/src/components/listers
     </div>
 </template>
 
-
 <script>
     const axios = require('axios').default;
 
@@ -80,7 +79,6 @@ path: frontend-wijmo/src/components/listers
         },
     };
 </script>
-
 
 <function>
     window.$HandleBars.registerHelper('isNotId', function (className) {

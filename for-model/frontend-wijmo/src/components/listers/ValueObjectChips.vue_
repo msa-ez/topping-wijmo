@@ -40,34 +40,17 @@ path: frontend-wijmo/src/components/listers
         </v-list>
 
         <{{namePascalCase}} v-if="editMode && tick" offline :isNew="true" :inList="true"
-                :editMode="editMode" v-model="newValue" @add="append">
+                :editMode="editMode" v-model="newValue" @add="append"
+        >
             <template slot="actions">
-                <v-spacer></v-spacer>
-                <v-btn
-                        color="deep-purple lighten-2"
-                        text
-                        @click="edit"
-                        v-if="!editMode"
-                >
-                    Edit
-                </v-btn>
-                
-                <v-btn
-                        color="deep-purple lighten-2"
-                        text
+                <v-layout row justify-end>
+                    <v-btn style="width:84px; margin:0px 7px 10px 0px;"
+                        color="primary"
                         @click="append(newValue)"
-                        v-else
-                >
-                    Add
-                </v-btn>
-                <v-btn
-                        color="deep-purple lighten-2"
-                        text
-                        @click="remove"
-                        v-if="!editMode"
-                >
-                    Delete
-                </v-btn>
+                    >
+                        디테일추가
+                    </v-btn>
+                </v-layout>
             </template>
         </{{namePascalCase}}>
     </div>
