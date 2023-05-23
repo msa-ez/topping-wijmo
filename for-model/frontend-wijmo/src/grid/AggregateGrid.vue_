@@ -69,7 +69,7 @@ path: frontend-wijmo/src/grid
             <v-dialog
                 v-model="openDialog"
                 transition="dialog-bottom-transition"
-                width="40%"
+                width="35%"
                 class="add-edit-dialog"
             >
                 <template>
