@@ -35,6 +35,7 @@ path: frontend-wijmo/src/grid
             :initialized="flexInitialized"
             :selectionChanged="onSelectionChanged"
             style="margin-top:10px; max-height:65vh;"
+            class="wj-felx-grid"
         >
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}'{{nameCamelCase}}',{{/if}}{{/aggregateRoot.fieldDescriptors}}]" />
             <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" align="center" />
@@ -64,33 +65,45 @@ path: frontend-wijmo/src/grid
         <{{namePascalCase}}DetailGrid :selectedGrid="selectedGrid" />
         {{/if}}
         {{/aggregateRoot.fieldDescriptors}}
-        <v-col style="margin-bottom:40px;">
-            <div class="text-center">
-                <v-dialog
-                    v-model="openDialog"
-                    width="332.5"
-                    fullscreen
-                    hide-overlay
-                    transition="dialog-bottom-transition"
-                >
-                    <{{namePascalCase}} :offline="offline"
-                        class="video-card"
-                        :isNew="!selectedItem"
-                        :editMode="true"
-                        v-model="{{nameCamelCase}}Model"
-                        @add="append"
-                    />
-                    <v-btn
-                        style="position:absolute; top:2%; right:2%"
-                        @click="closeDialog()"
-                        depressed
-                        icon 
-                        absolute
+        <v-col>
+            <v-dialog
+                v-model="openDialog"
+                transition="dialog-bottom-transition"
+                width="40%"
+                class="add-edit-dialog"
+            >
+                <template>
+                <v-card>
+                    <v-toolbar
+                        color="primary"
+                        class="elevation-0"
+                        height="50px"
                     >
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-dialog>
-            </div>
+                        <div style="color:white; font-size:17px; font-weight:700;">{{namePascalCase}} 등록</div>
+                        <v-spacer></v-spacer>
+                        <v-icon
+                            color="white"
+                            small
+                            @click="openDialog = false"
+                        >mdi-close</v-icon>
+                    </v-toolbar>
+                    <v-card-text>
+                    <div>
+                        <{{namePascalCase}} :offline="offline"
+                            class="video-card"
+                            :isNew="!selectedItem"
+                            :editMode="true"
+                            v-model="{{nameCamelCase}}Model"
+                            @add="append"
+                        />
+                    </div>
+                    </v-card-text>
+                    <v-card-actions class="justify-end">
+                    
+                    </v-card-actions>
+                </v-card>
+                </template>
+            </v-dialog>
         </v-col>
     </div>
 </template>
@@ -302,7 +315,7 @@ export default {
 
     body {
         font-size:1.5em;
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI Light",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+        font-family: "Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI Light",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     }
 
     .toolbar-item {
