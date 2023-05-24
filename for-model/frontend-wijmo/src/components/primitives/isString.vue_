@@ -23,7 +23,6 @@ path: frontend-wijmo/src/components/primitives
 <script>  
     export default {
         name: 'String',
-        label: String,
         components:{
         },
         props: {
@@ -32,6 +31,7 @@ path: frontend-wijmo/src/components/primitives
                 default: ''
             },
             editMode: Boolean,
+            label: String,
         },
         methods:{
             change(){
