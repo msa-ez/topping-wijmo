@@ -375,6 +375,9 @@ export default {
 
 
 <function>
+    function isNotId(name) {
+        return name !== 'id';
+    }
     window.$HandleBars.registerHelper('containsEntityMember', function(fieldDescriptors, options) {
         for (let i = 0; i < fieldDescriptors.length; i++) {
             const fieldDescriptor = fieldDescriptors[i];
