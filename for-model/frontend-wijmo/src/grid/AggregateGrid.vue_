@@ -40,7 +40,6 @@ path: frontend-wijmo/src/grid
             <wj-flex-grid-filter :filterColumns="[{{#aggregateRoot.fieldDescriptors}}{{#if (isNotId nameCamelCase)}}'{{nameCamelCase}}',{{/if}}{{/aggregateRoot.fieldDescriptors}}]" />
             <wj-flex-grid-column binding="index" header="Number" width="2*" :isReadOnly="true" align="center" />
             {{#aggregateRoot.fieldDescriptors}}
-            {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
             {{#if isVO}}
             {{else}}
