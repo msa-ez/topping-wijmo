@@ -26,10 +26,8 @@ path: frontend-wijmo/src/components
         </div>
 
         <div>
-            {{#if (containsEntityMember aggregateRoot.fieldDescriptors)}}
             <div class="dialog-sub-title">옵션항목</div>
             <v-divider class="border-opacity-100 my-divider"></v-divider>
-            {{/if}}
             <v-row>
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if (isNotId nameCamelCase)}}
@@ -375,18 +373,6 @@ export default {
 
 
 <function>
-    function isNotId(name) {
-        return name !== 'id';
-    }
-    window.$HandleBars.registerHelper('containsEntityMember', function(fieldDescriptors, options) {
-        for (let i = 0; i < fieldDescriptors.length; i++) {
-            const fieldDescriptor = fieldDescriptors[i];
-            if (isNotId(fieldDescriptor.nameCamelCase) && !isPrimitive(fieldDescriptor.className) && checkEntityMember(fieldDescriptor.className)) {
-            return options.fn(this);
-            }
-        }
-        return options.inverse(this);
-    });
     window.$HandleBars.registerHelper('checkCommandPut', function (info, options) {
         if(info.endsWith('PUT')){
             return options.fn(this);
