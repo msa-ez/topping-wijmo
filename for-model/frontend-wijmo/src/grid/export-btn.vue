@@ -1,5 +1,5 @@
 <template>
-    <v-btn class="btn btn-default btn-block" :disabled="preparing" @click="exportToExcel" small>
+    <v-btn class="btn btn-default btn-block" :disabled="preparing" @click="exportToExcel" small color="primary">
         <v-icon v-if="!exporting" small>mdi-download</v-icon>엑셀
     </v-btn>
 </template>
