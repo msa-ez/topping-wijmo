@@ -5,7 +5,7 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
 
 ---
 <template>
-    <v-card outlined style="border-radius: 0; max-height:15vh; margin-top:-10px;">
+    <v-card outlined style="border-radius: 0; max-height:15vh; margin-top:-10px; padding-bottom:10px;">
         <v-card-title>
             {{namePascalCase}}
         </v-card-title>
@@ -15,7 +15,8 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
                 {{#queryParameters}}
                 {{#if (isPrimitive className)}}
                 <v-col style="max-width:140px;">
-                    <{{getPrimitiveType className}} class="attributes-list" label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
+                    <div class="search-label">{{namePascalCase}}</div>
+                    <{{getPrimitiveType className}} class="attributes-list" label="입력하세요." v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
                 </v-col>
                 {{else}}
                 {{#checkVO className}}
