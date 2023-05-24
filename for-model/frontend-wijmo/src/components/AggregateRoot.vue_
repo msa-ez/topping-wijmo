@@ -375,7 +375,7 @@ export default {
 
 
 <function>
-    window.$Handlebars.registerHelper('containsEntityMember', function(fieldDescriptors, options) {
+    window.$HandleBars.registerHelper('containsEntityMember', function(fieldDescriptors, options) {
         for (let i = 0; i < fieldDescriptors.length; i++) {
             const fieldDescriptor = fieldDescriptors[i];
             if (isNotId(fieldDescriptor.nameCamelCase) && !isPrimitive(fieldDescriptor.className) && checkEntityMember(fieldDescriptor.className)) {
