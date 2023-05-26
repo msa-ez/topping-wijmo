@@ -5,8 +5,6 @@ path: frontend-wijmo/src/components
 <template>
     <div>
         <div>
-            <div class="dialog-sub-title">기본정보</div>
-            <v-divider class="border-opacity-100 my-divider"></v-divider>
             <v-row>
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if (isNotId nameCamelCase)}}
@@ -26,8 +24,6 @@ path: frontend-wijmo/src/components
         </div>
 
         <div>
-            <div class="dialog-sub-title">옵션항목</div>
-            <v-divider class="border-opacity-100 my-divider"></v-divider>
             <v-row>
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if (isNotId nameCamelCase)}}
@@ -45,8 +41,6 @@ path: frontend-wijmo/src/components
         </div>
 
         <div>
-            <div class="dialog-sub-title">디테일항목</div>
-            <v-divider class="border-opacity-100 my-divider"></v-divider>
             {{#aggregateRoot.fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
             {{#if (isPrimitive className)}}
