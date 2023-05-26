@@ -41,7 +41,7 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
                         @click="search"
                         flat
                         small
-                        color="primary
+                        color="primary"
                     >
                         <v-icon small>mdi-magnify</v-icon>검색
                     </v-btn>
