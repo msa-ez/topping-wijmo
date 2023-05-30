@@ -49,8 +49,9 @@
     font-weight:500;
     width:120px;
     text-align:right;
-    line-height:34px;
+    line-height:26px;
     color:black;
+    margin-right:5px;
 }
 
 .v-input--selection-controls {
@@ -85,5 +86,17 @@
     font-size: 14px;
     font-weight: 500;
     color: black;
+}
+
+.picker:nth-child(2n) {
+    padding-left: 10px;
+}
+
+.detail-picker:nth-child(2n) {
+    padding-left: 10px;
+}
+
+.detail-picker:nth-child(odd) {
+    padding-left: 15px;
 }
 

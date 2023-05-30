@@ -27,7 +27,9 @@ path: frontend-wijmo/src/components
             </v-col>
             {{else}}
             {{#checkEntityMember className}}
+            <v-col class="detail-picker" cols="6">
                 <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            </v-col>
             {{/checkEntityMember}}
             {{#checkListOfEntityMember className}}
                 <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>

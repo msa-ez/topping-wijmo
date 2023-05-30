@@ -5,7 +5,7 @@ path: frontend-wijmo/src/components
 <template>
     <div>
         <div>
-            <v-row>
+            <v-row cols="12">
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if (isNotId nameCamelCase)}}
                 {{#if (isPrimitive className)}}
@@ -23,13 +23,13 @@ path: frontend-wijmo/src/components
         </div>
 
         <div>
-            <v-row>
+            <v-row cols="12">
                 {{#aggregateRoot.fieldDescriptors}}
                 {{#if (isNotId nameCamelCase)}}
                 {{#if (isPrimitive className)}}
                 {{else}}
                 {{#checkEntityMember className}}
-                <v-col cols="6">
+                <v-col cols="6" class="picker">
                     <{{className}} offline label="{{namePascalCase}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
                 </v-col>
                 {{/checkEntityMember}}
