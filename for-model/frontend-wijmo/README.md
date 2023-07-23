@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-npm install
+npm i -D webpack@^4.0.0
 ```
 
 ### Compiles and hot-reloads for development
@@ -20,5 +20,8 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### If you confront an ENVELOP Error something
+```
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+... and try again
