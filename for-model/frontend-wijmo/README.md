@@ -2,6 +2,8 @@
 
 ## Project setup
 ```
+npm install --save core-js/modules/es.array.push.js core-js/modules/es.array.reduce.js core-js/modules/es.error.cause.js core-js/modules/web.dom-exception.stack.js core-js/modules/web.url-search-params.delete.js core-js/modules/web.url-search-params.has.js core-js/modules/web.url-search-params.size.js rsocket-core rsocket-core/build
+
 npm i -D webpack@^4.0.0
 ```
 
