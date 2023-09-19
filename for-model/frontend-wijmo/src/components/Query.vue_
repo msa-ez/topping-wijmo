@@ -1,45 +1,43 @@
 forEach: View
-fileName: {{namePascalCase}}Query.vue
+fileName: {{namePascalCase}}.vue
 path: frontend-wijmo/src/components
 except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/ifEquals}}
 
 ---
 <template>
-    <v-card outlined style="border-radius: 0; max-height:15vh; margin-top:-10px; padding-bottom:10px;">
+    <v-card outlined style="border-radius: 0; margin-top:-10px; padding-bottom:10px;">
         <v-card-title>
-            {{namePascalCase}}
+            {{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}
         </v-card-title>
     
-        <v-card-text>
+        <v-card-text style="margin-top:-30px;">
             <v-row no-gutters style="margin: 15px 0px -30px -15px;">
                 {{#queryParameters}}
                 {{#if (isPrimitive className)}}
                 <v-col style="max-width:140px;">
-                    <div class="search-label">{{namePascalCase}}</div>
-                    <{{getPrimitiveType className}} class="attributes-list" label="입력하세요." v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
+                    <{{getPrimitiveType className}} class="attributes-list" label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode"/>
                 </v-col>
                 {{else}}
                 {{#checkVO className}}
                 <v-col style="max-width:140px;">
-                    <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                    <{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
                 </v-col>
                 {{/checkVO}}
                 {{#checkEntityMember className}}
                 <v-col style="max-width:140px;">
-                    <{{className}} offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                    <{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
                 </v-col>
                 {{/checkEntityMember}}
                 {{#checkListOfEntityMember className}}
                 <v-col style="max-width:140px;">
-                    <{{getEntityClassNameOfList className}}List offline label="{{namePascalCase}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+                    <{{getEntityClassNameOfList className}}List offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.parameters.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
                 </v-col>
                 {{/checkListOfEntityMember}}
                 {{/if}}
                 {{/queryParameters}}
                 <v-col>
-                    <v-btn class="gs-query-search-btn"
+                    <v-btn class="gs-query-search-btn contrast-primary-text"
                         @click="search"
-                        flat
                         small
                         color="primary"
                     >
@@ -53,31 +51,24 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
 
 <script>
     export default {
-        name: '{{namePascalCase}}Query',
+        name: '{{namePascalCase}}',
         components:{},
         props: {},
         data: () => ({
             editMode: true,
             value: {
-                apiPath: '{{#queryOption}}{{apiPath}}{{/queryOption}}',
+                apiPath: '{{#attached 'Aggregate' this}}{{namePlural}}{{/attached}}/search/findBy{{namePascalCase}}',
                 parameters: {}
             },
         }),
         created() {
-        {{#queryParameters}}
-            this.value.parameters.{{nameCamelCase}} = {{#setDefaultValue className}}{{/setDefaultValue}};
-        {{/queryParameters}}
         },
         watch: {
         },
         methods: {
             search() {
                 let search = null;
-                if({{#queryParameters}}{{#searchId className nameCamelCase @index}}{{/searchId}}{{/queryParameters}}) {
-                    search = null;
-                }else{
-                    search = this.value;
-                }
+                search = this.value;
                 this.$emit('search', search);
             },
             close() {
@@ -98,23 +89,13 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
 
 <function>
 //if(this.queryParameters!=null) alert(this.queryParameters)
-
-    window.$HandleBars.registerHelper('searchId', function (className, nameCamelCase, index) {
-        if(className.endsWith("String") || className.endsWith("Integer") || className.endsWith("Long") || className.endsWith("Double") || className.endsWith("Float") || className.endsWith("Boolean") || className.endsWith("Date") || className.includes("List")) {
-            if(index != 0){
-                return " && this.value.parameters." + nameCamelCase + " == '' "
-            }else{
-                return "this.value.parameters." + nameCamelCase + " == '' "
-            }
-        } else {
-            if(index != 0){
-                return " && (this.value.parameters." + nameCamelCase + ".id == '' || typeof(this.value.parameters." + nameCamelCase + ") == 'object')"
-            }else{
-                return "(this.value.parameters." + nameCamelCase + ".id == '' || typeof(this.value.parameters." + nameCamelCase + ") == 'object')"
-            }
+    window.$HandleBars.registerHelper('ifNotNull', function (displayName, name) {
+        if(displayName){
+            return displayName;
+        }else{
+            return name;
         }
-    });
-
+    })
     window.$HandleBars.registerHelper('print', function (value) {
         console.log(value)
     });
@@ -167,7 +148,7 @@ except: {{#ifEquals dataProjection "query-for-aggregate"}}false{{else}}true{{/if
     window.$HandleBars.registerHelper('getPrimitiveType', function (className) {
         if(className.includes("String")) {
             return "String";
-        } else if(className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")) {
+        } else if(className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float") || className.includes("int")) {
             return "Number";
         } else if(className.includes("Boolean")) {
             return "Boolean";

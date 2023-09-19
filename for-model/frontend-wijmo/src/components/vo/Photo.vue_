@@ -8,9 +8,9 @@ path: frontend-wijmo/src/components/vo
         </v-card-title>
 
         <v-img
-            style="width:400px; height:300px; border-radius:10px; position:relative; margin-left:5px; top:5px;"
+            style="width:200px; height:200px; border-radius:10px; position:relative; margin-left:5px; top:5px;"
             :style="editMode ? 'cursor:pointer;':''"
-            :src="value.imgFile ? value.imgFile:'https://cdn.vuetifyjs.com/images/cards/cooking.png'"
+            :src="value.imgFile ? value.imgFile:'https://github.com/kibum0405/topping-wijmo/assets/123912988/7dccf9a0-2347-4a51-a367-0f885555b090'"
             class="mx-auto"
             @click="selectFile()"
         ></v-img>
@@ -25,6 +25,8 @@ path: frontend-wijmo/src/components/vo
 </template>
 
 <script>
+    import Vue from "vue";
+
     export default {
         name:"Photo",
         props: {
@@ -52,6 +54,9 @@ path: frontend-wijmo/src/components/vo
                 }
 
                 var me = this
+                if(!me.value){
+                    me.value = {}
+                }
                 var input = document.createElement("input");
                 input.type = "file";
                 input.accept = "image/*";
@@ -64,8 +69,7 @@ path: frontend-wijmo/src/components/vo
 
                     reader.onload = function () {
                         var result = reader.result;
-                        me.value.imgFile = result;
-                        
+                        Vue.set(me.value, 'imgFile', result);
                     };
                     reader.readAsDataURL( file );
                 };

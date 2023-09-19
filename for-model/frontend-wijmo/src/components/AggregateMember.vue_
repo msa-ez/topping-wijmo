@@ -332,12 +332,7 @@ path: frontend-wijmo/src/components
                     location.reload()
 
                 } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
+                    this.$EventBus.$emit('show-error', e);
                 }
                 
             },
@@ -354,12 +349,7 @@ path: frontend-wijmo/src/components
                     this.$emit('delete', this.value);
 
                 } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
+                    this.$EventBus.$emit('show-error', e);
                 }
             },
             {{#targetElement.operations}}
@@ -374,12 +364,7 @@ path: frontend-wijmo/src/components
 
                     this.editMode = false;
                 } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
+                    this.$EventBus.$emit('show-error', e);
                 }
             },
             {{#if (checkParam fieldDescriptors)}}
@@ -404,12 +389,7 @@ path: frontend-wijmo/src/components
 
                     this.editMode = false;
                 } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
+                    this.$EventBus.$emit('show-error', e);
                 }
             },
             {{#if (checkParam fieldDescriptors)}}
@@ -487,7 +467,7 @@ path: frontend-wijmo/src/components
             } else {
                 return "String";
             }
-        } else if(className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")) {
+        } else if(className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float") || className.includes("int")) {
             if(this.isLob) {
                 return "LargeObject";
             } else {

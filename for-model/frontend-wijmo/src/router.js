@@ -14,16 +14,14 @@ Vue.use(Router);
 
 {{#boundedContexts}}
     {{#aggregates}}
-import {{namePascalCase}}Manager from "./grid/{{namePascalCase}}Grid"
-import {{namePascalCase}}Detail from "./components/listers/{{namePascalCase}}Detail"
+import {{namePascalCase}}Manager from "./components/ui/{{namePascalCase}}Grid"
     {{/aggregates}}
 
-    {{#viewes}}
+    {{#views}}
         {{#ifEquals dataProjection "cqrs"}}
 import {{namePascalCase}}View from "./components/{{namePascalCase}}View"
-import {{namePascalCase}}ViewDetail from "./components/{{namePascalCase}}ViewDetail"
         {{/ifEquals}}
-    {{/viewes}}
+    {{/views}}
 {{/boundedContexts}}
 
 export default new Router({
@@ -37,14 +35,9 @@ export default new Router({
                 name: '{{namePascalCase}}Manager',
                 component: {{namePascalCase}}Manager
             },
-            {
-                path: '/{{namePlural}}/:id',
-                name: '{{namePascalCase}}Detail',
-                component: {{namePascalCase}}Detail
-            },
         {{/aggregates}}
 
-        {{#viewes}}
+        {{#views}}
         {{#ifEquals dataProjection "cqrs"}}
 
             {
@@ -52,13 +45,8 @@ export default new Router({
                 name: '{{namePascalCase}}View',
                 component: {{namePascalCase}}View
             },
-            {
-                path: '/{{namePlural}}/:id',
-                name: '{{namePascalCase}}ViewDetail',
-                component: {{namePascalCase}}ViewDetail
-            },
         {{/ifEquals}}
-        {{/viewes}}
+        {{/views}}
        {{/boundedContexts}}
 
 

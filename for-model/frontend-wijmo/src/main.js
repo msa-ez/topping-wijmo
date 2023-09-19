@@ -4,14 +4,12 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import Managing from "./components";
 import router from './router';
-import ExcelExportButton from "./grid/export-btn.vue";
-{{#if (isSelectedSecurity selectedSecurity)}}
-import Keycloak from 'keycloak-js'
-{{else}}
-{{/if}}
+import ExcelExportButton from "./components/base-ui/export-btn.vue";
+import Keycloak from 'keycloak-js';
 Vue.config.productionTip = false;
 Vue.component("excel-export-button", ExcelExportButton);
 Vue.prototype.$Vue = Vue;
+Vue.prototype.$EventBus = new Vue()
 
 const axios = require("axios").default;
 require('./style.css');
@@ -57,9 +55,9 @@ const pluralCaseList = []
 pluralCaseList.push( {plural: "{{namePlural}}", pascal: "{{namePascalCase}}"} )
     {{/aggregates}}
 
-    {{#viewes}}
+    {{#views}}
 pluralCaseList.push( {plural: "{{namePlural}}", pascal: "{{namePascalCase}}"} )
-    {{/viewes}}
+    {{/views}}
 {{/boundedContexts}}
 
 Vue.prototype.$ManagerLists.forEach(function(item, idx) {
@@ -74,22 +72,22 @@ Vue.prototype.$ManagerLists.forEach(function(item, idx) {
   })
 })
 
-{{#if (isSelectedSecurity selectedSecurity)}}
 let initOptions = {
   url: `http://localhost:9090/`,
   realm: `master`,
-  clientId: `master`,
+  clientId: `cliend-name`,
   onLoad: `login-required`,
 };
 
-let keycloak = Keycloak(initOptions);
+
+let keycloak = new Keycloak(initOptions);
 
 init();
 
 function init() {
   keycloak.init({
     onLoad: initOptions.onLoad,
-  }).success(auth => {
+  }).then(auth => {
     const ONE_MINUTE = 60000;
   
     if (!auth) {
@@ -97,50 +95,34 @@ function init() {
     } else {
       console.info(`Auth ok`);
     }
+
+    Vue.prototype.$OAuth = keycloak
   
+    new Vue({
+      vuetify,
+      router,
+      render: h => h(App, {
+        props: {
+          OAuth: keycloak,
+        },
+      }),
+    }).$mount("#app");
+  
+    window.setTimeout(refreshToken.bind(null, keycloak), ONE_MINUTE);
+  }).catch(() => {
+    
     new Vue({
       vuetify,
       router,
       render: h => h(App)
     }).$mount("#app");
 
-    localStorage.setItem(`vue-token`, keycloak.token);
-    localStorage.setItem(`vue-refresh-token`, keycloak.refreshToken);
-    localStorage.setItem(`vue-idToken`, keycloak.idToken);
-    localStorage.setItem(`vue-idTokenParsed`, keycloak.idTokenParsed);
-
-    console.log(keycloak.subject);
-    if (keycloak.idToken) {
-        //document.location.href = "?user="+keycloak.idTokenParsed.preferred_username;
-        console.log('IDToken');
-        localStorage.setItem('preferred_username', keycloak.idTokenParsed.preferred_username);
-        localStorage.setItem('email', keycloak.idTokenParsed.email);
-        localStorage.setItem('name', keycloak.idTokenParsed.name);
-        localStorage.setItem('given_name', keycloak.idTokenParsed.given_name);
-        localStorage.setItem('family_name', keycloak.idTokenParsed.family_name);
-        localStorage.setItem('user_roles', keycloak.tokenParsed.realm_access.roles);
-        localStorage.setItem('user_client_roles', Object.values(keycloak.tokenParsed.resource_access)[1].roles);
-    } else {
-        keycloak.loadUserProfile(function() {
-            console.log('Account Service');
-            localStorage.setItem('username', keycloak.profile.username);
-            localStorage.setItem('email', keycloak.profile.email);
-            localStorage.setItem('name', keycloak.profile.firstName + ' ' + keycloak.profile.lastName);
-            localStorage.setItem('firstName', keycloak.profile.firstName);
-            localStorage.setItem('lastName', keycloak.profile.lastName);
-        }, function() {
-            console.log('Failed to retrieve user details. Please enable claims or account role');
-        });
-    }
-  
-    window.setTimeout(refreshToken.bind(null, keycloak), ONE_MINUTE);
-  }).error(() => {
     console.error(`Auth Fail`);
   })
 }
 
 function refreshToken() {
-  keycloak.updateToken(70).success(refreshed => {
+  keycloak.updateToken(70).then(refreshed => {
     if (refreshed) {
       successRefresh(refreshed);
     } else {
@@ -161,27 +143,3 @@ function warnRefresh() {
 function errorRefresh() {
   console.error('Failed to refresh token');
 }
-{{else}}
-new Vue({
-  vuetify,
-  router,
-  render: h => h(App)
-}).$mount("#app");
-{{/if}}
-
-<function>
-	window.$HandleBars.registerHelper('isSelectedSecurity', function (selectedSecurity) {
-		try{
-			if(!selectedSecurity)
-				return false;
-
-			if(selectedSecurity == 'isKeycloakSecurity'){
-				return true;
-			}
-
-			return;
-		} catch(e){
-		console.log(e)
-		}
-  	});
-</function>

@@ -1,126 +1,52 @@
-forEach: Aggregate
-fileName: {{namePascalCase}}Picker.vue
-path: frontend-wijmo/src/components/listers
+forEach: UI
+fileName: {{namePascalCase}}Grid.vue
+path: frontend-wijmo/src/components
+except: {{contexts.isNotGrid}}
 ---
 <template>
     <div>
-        <v-select
-            :items="list"
-            item-text="name"
-            item-value="name"
-            label="{{namePascalCase}}"
-            return-object
-            v-model="selected"
-            @change="select"
-            solo
-        ></v-select>
+        <v-data-table
+                :headers="headers"
+                :items="value"
+                :items-per-page="5"
+                class="elevation-1"
+        ></v-data-table>
     </div>
 </template>
 
 <script>
-    const axios = require('axios').default;
+    import BaseUIGrid from './base-ui/BaseUIGrid';
 
     export default {
-        name: '{{namePascalCase}}Picker',
-        props: {
-            value: [String, Object, Array, Number, Boolean],
-            editMode: Boolean,
-        },
+        mixins: [BaseUIGrid],
+        {{#options.view}}
+        name: '{{namePascalCase}}-{{../namePascalCase}}',
+        {{/options.view}}
         data: () => ({
-            list: [],
-            selected: null,
-            referenceValue: null,
+            headers: [
+            {{#grid.columns}}
+                {
+                    text: '{{this}}',
+                    value: '{{this}}'
+                },
+            {{/grid.columns}}
+            ],
         }),
         async created() {
-            var me = this;
-            var temp = await axios.get(axios.fixUrl('/{{namePlural}}'))
-            if(temp.data) {
-                {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
-                if(temp.data._embedded) {
-                    Object.values(temp.data._embedded).forEach(function(val) {
-                        if(val.length > 0) {
-                            me.list = [...me.list, ...val]
-                        }
-                    })
-                }
-                {{else}}
-                me.list = temp.data._embedded.{{namePlural}};
-                {{/if}}
-            }
-
-            if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
-                {{#aggregateRoot.fieldDescriptors}}
-                {{#isKey}}var idKey = '{{nameCamelCase}}'{{/isKey}}
-                {{/aggregateRoot.fieldDescriptors}}
-                var id = me.value[idKey];
-                var tmpValue = await axios.get(axios.fixUrl('/{{namePlural}}/' + id))
-                if(tmpValue.data) {
-                    var val = tmpValue.data
-                    {{#aggregateRoot.fieldDescriptors}}
-                    {{#isName}}me.selected = me.list.find((item) => item.{{nameCamelCase}} == val.{{nameCamelCase}}){{/isName}}
-                    {{/aggregateRoot.fieldDescriptors}}
-                    me.referenceValue = val
-                }
-            }
+            {{#options.view}}
+            const path = "{{namePlural}}"
+            await this.getValue(path);
+            {{/options.view}}
         },
-        methods: {
-            select(val) {
-                this.referenceValue = val;
-                if (val) {
-                    var uriParts = val._links.self.href.split('/');
-                    {{#aggregateRoot.fieldDescriptors}}
-                    {{#isKey}}var obj = Number(uriParts.pop());{{/isKey}}
-                    {{/aggregateRoot.fieldDescriptors}}
-                    this.$emit('input', obj);
-                } else {
-                    this.$emit('input', null);
-                }
-            },
-        },
-    };
+    }
 </script>
 
+
 <function>
-    window.$HandleBars.registerHelper('isNotId', function (className) {
-        return (className != 'id')
-    });
+    this.contexts.isNotGrid = this.uiType!="Grid"
 
-    window.$HandleBars.registerHelper('checkGeneralization', function (relations, name) {
-        try {
-            if (typeof relations == "undefined") {
-                return 
-            } else {
-                for (var i = 0; i < relations.length; i ++ ) {
-                    if (relations[i] != null) {
-                        if (relations[i].targetElement != "undefined") {
-                            if(relations[i].targetElement.name.toLowerCase() == name && relations[i].relationType.includes("Generalization")) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
-        } catch(e) {
-            console.log(e)
-        }
-    });
-
-    window.$HandleBars.registerHelper('isGeneralization', function (toName, name, type) {
-        try {
-            if(toName == null || name == null || type == null) {
-                return false;
-            } else {
-                if(toName == name && type.includes("Generalization")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } catch(e) {
-            console.log(e)
-        }
-    });
+    let view = this.attached.find((ele) => ele._type.includes("View"));
+    options.view = view;
 
     window.$HandleBars.registerHelper('toURL', function (className) {
 
@@ -204,14 +130,13 @@ path: frontend-wijmo/src/components/listers
             ];
 
             // save some time in the case that singular and plural are the same
-            // console.log("value = " + value)
+            //console.log("value = " + value)
             if(uncountable.indexOf(value.toLowerCase()) >= 0) {
                 return this;
             }
 
             // check for irregular forms
-            for(var word in irregular){
-
+            for(var word in irregular) {
                 if(revert) {
                     var pattern = new RegExp(irregular[word]+'$', 'i');
                     var replace = word;
@@ -219,7 +144,6 @@ path: frontend-wijmo/src/components/listers
                     var pattern = new RegExp(word+'$', 'i');
                     var replace = irregular[word];
                 }
-
                 if(pattern.test(value)) {
                     return value.replace(pattern, replace);
                 }
@@ -233,7 +157,6 @@ path: frontend-wijmo/src/components/listers
 
             // check for matches using regular expressions
             for(var reg in array) {
-
                 var pattern = new RegExp(reg, 'i');
 
                 if(pattern.test(value)) {
@@ -244,7 +167,7 @@ path: frontend-wijmo/src/components/listers
             return value;
         }
 
-        return pluralize(className.toLowerCase())
-    });
+        return pluralize(className.toLowerCase());
+    })
 
 </function>
