@@ -4,4 +4,4 @@ imageUrl: https://github.com/msa-ez/template-axon2/assets/130956306/5007ac95-648
 templateName: wijmo
 description: Provides data display and manipulation capabilities like sorting, filtering, editing, and Excel-like features within the Wijmo Grid, a powerful data grid component for web applications.
 depends:
-group: Frontend
+tags: Frontend
