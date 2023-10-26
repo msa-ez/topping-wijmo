@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 Vue.component("excel-export-button", ExcelExportButton);
 Vue.prototype.$Vue = Vue;
 Vue.prototype.$EventBus = new Vue()
-
+ 
 const axios = require("axios").default;
 require('./style.css');
 
@@ -41,7 +41,7 @@ axios.fixUrl = function(original){
 const templateFiles = require.context("./components", true);
 Vue.prototype.$ManagerLists = [];
 templateFiles.keys().forEach(function(tempFiles) {
-  if (!tempFiles.includes("Manager.vue") && tempFiles.includes("vue")) {
+  if(!tempFiles.includes("Manager.vue") && tempFiles.includes("vue")) {
     Vue.prototype.$ManagerLists.push(
       tempFiles.replace("./", "").replace(".vue", "")
     );
@@ -71,7 +71,7 @@ Vue.prototype.$ManagerLists.forEach(function(item, idx) {
     }
   })
 })
-
+{{#if (isSelectedSecurity options.rootModel.toppingPlatforms)}}
 let initOptions = {
   url: `http://localhost:9090/`,
   realm: `master`,
@@ -85,40 +85,46 @@ let keycloak = new Keycloak(initOptions);
 init();
 
 function init() {
-  keycloak.init({
-    onLoad: initOptions.onLoad,
-  }).then(auth => {
-    const ONE_MINUTE = 60000;
-  
-    if (!auth) {
-      window.location.reload();
-    } else {
-      console.info(`Auth ok`);
-    }
+  const ONE_MINUTE = 2000;
+  const initPromise = keycloak.init({ onLoad: initOptions.onLoad });
+  const timeoutPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('Initialization timeout'));
+    }, ONE_MINUTE);
+  });
 
-    Vue.prototype.$OAuth = keycloak
-  
-    new Vue({
-      vuetify,
-      router,
-      render: h => h(App, {
-        props: {
-          OAuth: keycloak,
-        },
-      }),
-    }).$mount("#app");
-  
-    window.setTimeout(refreshToken.bind(null, keycloak), ONE_MINUTE);
-  }).catch(() => {
-    
-    new Vue({
-      vuetify,
-      router,
-      render: h => h(App)
-    }).$mount("#app");
+  Promise.race([initPromise, timeoutPromise])
+    .then((auth) => {
+      if (!auth) {
+        window.location.reload();
+      } else {
+        console.info(`Auth ok`);
+      }
 
-    console.error(`Auth Fail`);
-  })
+      Vue.prototype.$OAuth = keycloak;
+
+      new Vue({
+        vuetify,
+        router,
+        render: (h) =>
+          h(App, {
+            props: {
+              OAuth: keycloak,
+            },
+          }),
+      }).$mount("#app");
+
+      window.setTimeout(refreshToken.bind(null, keycloak), ONE_MINUTE);
+    })
+    .catch((error) => {
+      console.error(`Initialization error:`, error);
+
+      new Vue({
+        vuetify,
+        router,
+        render: (h) => h(App),
+      }).$mount("#app");
+    });
 }
 
 function refreshToken() {
@@ -143,3 +149,28 @@ function warnRefresh() {
 function errorRefresh() {
   console.error('Failed to refresh token');
 }
+{{else}}
+new Vue({
+  vuetify,
+  router,
+  render: h => h(App)
+}).$mount("#app");
+{{/if}}
+
+<function>
+window.$HandleBars.registerHelper('isSelectedSecurity', function (selectedSecurity) {
+    try{
+        var isSelectedSecurity = false
+        for(var i=0; i<selectedSecurity.length; i++){
+            if(selectedSecurity[i] == 'keycloak-security'){
+                isSelectedSecurity =  true;
+            }
+        }
+
+        return isSelectedSecurity;
+    } catch(e){
+        console.log(e)
+    }
+});
+</function>
+ 

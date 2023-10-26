@@ -168,20 +168,6 @@ export default {
         {{/commands}}
     }),
     watch: {
-        newValue: {
-            deep:true,
-            handler:function(){
-                if(!this.newValue){
-                    this.newValue = {
-                    {{#aggregateRoot.fieldDescriptors}}
-                    {{#if (isNotId nameCamelCase)}}
-                        '{{nameCamelCase}}': {{#setDefaultValue className isVO}}{{/setDefaultValue}},
-                    {{/if}}
-                    {{/aggregateRoot.fieldDescriptors}}
-                    }
-                }
-            }
-        }
     },
     methods:{
         {{#commands}}
@@ -190,9 +176,13 @@ export default {
             try{
                 this.repository.invoke(this.getSelectedItem(), "{{nameCamelCase}}", {{#if fieldDescriptors}}params{{else}}null{{/if}})
                 this.$EventBus.$emit('show-success','{{#ifNotNull displayname name}}{{/ifNotNull}} 성공적으로 처리되었습니다.')
+                {{#if fieldDescriptors}}
+                this.{{nameCamelCase}}Dialog = false
+                {{/if}}
             }catch(e){
                 this.$EventBus.$emit('show-error', e);
             }
+            
         },
         {{/isRestRepository}}
         {{/commands}}

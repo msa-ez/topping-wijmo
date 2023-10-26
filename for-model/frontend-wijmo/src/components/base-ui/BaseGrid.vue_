@@ -181,6 +181,7 @@ export default {
         append() {
             this.tick = false;
             this.openDialog = false
+            this.$EventBus.$emit('changeSelected', this.openDialog)
             
             if (!this.value) {
                 this.value = [];
