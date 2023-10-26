@@ -111,6 +111,7 @@ path: frontend-wijmo/src/components/base-ui
             closeDialog(){
                 this.openDialog = false
                 this.editMode = false
+                this.$EventBus.$emit('changeSelected', this.openDialog)
             },
 
         },
