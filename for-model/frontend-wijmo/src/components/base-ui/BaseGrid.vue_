@@ -23,7 +23,6 @@ import * as wjcCore from "@grapecity/wijmo";
 export default {
     name: 'BaseGrid',
     data: () => ({
-        newValue: null,
         flex: null,
         tick : true,
         openDialog : false,
