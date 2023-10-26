@@ -82,6 +82,7 @@ path: frontend-wijmo/src/components/ui
             <wj-flex-grid-column binding="{{nameCamelCase}}Id" header="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" width="2*" :isReadOnly="true" align="center">
                 <wj-flex-grid-cell-template cellType="Cell" v-slot="cell">   
                     <{{namePascalCase}}Id v-model="cell.item.{{nameCamelCase}}Id" :editMode="editMode"></{{namePascalCase}}Id>
+                    \{{ cell.item.{{#getNameField aggregateRoot.fieldDescriptors}}{{/getNameField}} }}
                 </wj-flex-grid-cell-template>
             </wj-flex-grid-column>
             {{/target}}
@@ -230,6 +231,15 @@ window.$HandleBars.registerHelper('getPickerName', function (fieldDescriptors) {
         }
     }
 })
+window.$HandleBars.registerHelper('getNameField', function (fieldDescriptors) {
+    for(var i = 0; i < fieldDescriptors.length; i ++ ){
+        if(fieldDescriptors[i] && fieldDescriptors[i].isName == true){
+            return fieldDescriptors[i].nameCamelCase
+        }else if(fieldDescriptors[i].isName == false && fieldDescriptors[i].isKey == false){
+            return fieldDescriptors[i].nameCamelCase
+        }
+    }
+});
 window.$HandleBars.registerHelper('checkVO', function (className, options) {
     if(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
             || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating") ){

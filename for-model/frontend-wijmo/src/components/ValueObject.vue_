@@ -113,12 +113,11 @@ export default {
         for(var i = 0; i < fieldDescriptors.length; i ++ ){
             if(fieldDescriptors[i] && fieldDescriptors[i].isName == true){
                 return fieldDescriptors[i].nameCamelCase
-            }else{
-                return fieldDescriptors[0].nameCamelCase
+            }else if(fieldDescriptors[i].isName == false && fieldDescriptors[i].isKey == false){
+                return fieldDescriptors[i].nameCamelCase
             }
         }
     });
-
     window.$HandleBars.registerHelper('toURL', function (className) {
 
         var pluralize = function(value, revert){
