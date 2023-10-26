@@ -33,6 +33,15 @@ path: frontend-wijmo/src/components/base-ui
 
             this.repository = new BaseRepository(axios, this.path)
         },
+        watch:{
+            openDialog:{
+                handler: function(newVal){
+                    if(!newVal){
+                        this.newValue = {};
+                    }
+                }
+            }
+        },
         methods:{
             selectFile(){
                 if(this.editMode == false) {
