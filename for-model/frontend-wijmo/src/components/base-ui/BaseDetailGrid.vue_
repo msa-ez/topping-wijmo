@@ -18,7 +18,7 @@ path: frontend-wijmo/src/components/base-ui
              }
          },
          methods: {
-            detailDeleteRow() {
+            deleteDetailRow() {
                 const flexGridDetails = this.$refs.flexGridDetails;
                 const view = flexGridDetails.collectionView;
                 const selectedIndex = view.currentPosition;
