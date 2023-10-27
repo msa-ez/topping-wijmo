@@ -18,6 +18,14 @@ path: frontend-wijmo/src/components/base-ui
              }
          },
          methods: {
+            addDetailRow() {
+                if (!this.value) {
+                    this.value = [];
+                }
+                const newDetailRow = {}
+                this.value.push(newDetailRow);
+                this.$emit('input', this.value);
+            },
             deleteDetailRow() {
                 const flexGridDetails = this.$refs.flexGridDetails;
                 const view = flexGridDetails.collectionView;
