@@ -1,6 +1,7 @@
 forEach: ValueObject
 fileName: {{namePascalCase}}.vue
 path: frontend-wijmo/src/components
+except:{{#checkDefaultVO namePascalCase}}{{/checkDefaultVO}}
 ---
 <template>
     {{#referenceClass}}
@@ -72,7 +73,11 @@ export default {
                     const valueType = typeof this.value[key];
                     return !excludedKeys.includes(key) && key !== 'id' && valueType !== 'object' && valueType !== 'number';
                 });
-                name = filteredKeys[1]; // 필터링된 배열의 두 번째 키
+                if(filteredKeys == []){
+                    name = "id"
+                }else{
+                    name = filteredKeys[1]; 
+                }
             }
             return name
         }
@@ -339,6 +344,14 @@ export default {
     window.$HandleBars.registerHelper('check', function (file) {
        if(file)return file
     })
+    window.$HandleBars.registerHelper('checkDefaultVO', function (name) { 
+        var voName = ['Email', 'EventViewer', 'File', 'Money', 'Payment', 'Photo', 'Rating', 'User', 'Weather'];
+        if (voName.some(item => name === item)) { 
+            return true;
+        } else {
+            return false;
+        }
+    });
 
 
 </function>
