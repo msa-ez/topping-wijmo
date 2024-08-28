@@ -3,6 +3,7 @@ fileName: {{namePascalCase}}.vue
 path: frontend-wijmo/src/components
 except:{{#checkDefaultVO namePascalCase}}{{/checkDefaultVO}}
 ---
+
 <template>
     {{#referenceClass}}
     <div>
@@ -344,9 +345,10 @@ export default {
     window.$HandleBars.registerHelper('check', function (file) {
        if(file)return file
     })
-    window.$HandleBars.registerHelper('checkDefaultVO', function (name) { 
+    
+    window.$HandleBars.registerHelper('checkDefaultVO', function (parameterName) { 
         var voName = ['Email', 'EventViewer', 'File', 'Money', 'Payment', 'Photo', 'Rating', 'User', 'Weather'];
-        if (voName.some(item => name === item)) { 
+        if (voName.some(item => parameterName === item)) { 
             return true;
         } else {
             return false;
