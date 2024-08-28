@@ -242,7 +242,7 @@ window.$HandleBars.registerHelper('getNameField', function (fieldDescriptors) {
 });
 window.$HandleBars.registerHelper('checkVO', function (className, options) {
     if(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
-            || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating") ){
+            || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating") || className.endsWith("Id") ){
         return options.fn(this);
     }
 })
