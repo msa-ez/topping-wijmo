@@ -346,7 +346,7 @@ export default {
     })
     
     window.$HandleBars.registerHelper('checkDefaultVO', function (parameterName) { 
-        var voName = ['Address', Email', 'EventViewer', 'File', 'Money', 'Payment', 'Photo', 'Rating', 'User', 'Weather'];
+        var voName = ['Address', 'Email', 'EventViewer', 'File', 'Money', 'Payment', 'Photo', 'Rating', 'User', 'Weather'];
         if (voName.some(item => parameterName === item)) { 
             return true;
         } else {
