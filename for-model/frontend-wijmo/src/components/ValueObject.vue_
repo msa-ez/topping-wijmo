@@ -4,9 +4,8 @@ path: frontend-wijmo/src/components
 ---
 <template>
     {{#referenceClass}}
-    {{#check ../this}}{{/check}}
     <div>
-        <BasePicker v-if="editMode" searchApiPath="{{#toURL ../referenceClass}}{{/toURL}}{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'View' this}}/search/findBy{{namePascalCase}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}" searchParameterName="{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getNameField aggregateRoot.fieldDescriptors}}{{/getNameField}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}"  idField="{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getKey aggregateRoot.fieldDescriptors}}{{/getKey}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}" nameField="{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getNameField aggregateRoot.fieldDescriptors}}{{/getNameField}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}" path="{{#toURL ../referenceClass}}{{/toURL}}" label="{{#ifNotNull displayName ../namePascalCase}}{{/ifNotNull}}" v-model="value" @selected="pick" :editMode="editMode" />
+        <BasePicker v-if="editMode" searchApiPath="{{#toURL ../referenceClass}}{{/toURL}}{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'View' this}}/search/findBy{{namePascalCase}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}" searchParameterName="{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getNameField aggregateRoot.fieldDescriptors}}{{/getNameField}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}"  idField="{{#../boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getKey aggregateRoot.fieldDescriptors}}{{/getKey}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{/../boundedContext.aggregates}}" nameField="{{#../boundedContext.aggregates}}{{#if outgoingRelations}}{{#outgoingRelations}}{{#target}}{{#attached 'BoundedContext' this}}{{#aggregates}}{{#if (compareName name ../../../../../../referenceClass)}}{{#getNameField aggregateRoot.fieldDescriptors}}{{/getNameField}}{{/if}}{{/aggregates}}{{/attached}}{{/target}}{{/outgoingRelations}}{{else}}:nameField="nameField"{{/if}}{{/../boundedContext.aggregates}}" path="{{#toURL ../referenceClass}}{{/toURL}}" label="{{#ifNotNull displayName ../namePascalCase}}{{/ifNotNull}}" v-model="value" @selected="pick" :editMode="editMode" />
         <div v-else style="height:100%">
             <span>\{{ value && value.name ? value.name : '' }}</span>
         </div>
@@ -55,11 +54,28 @@ export default {
     }),
     props: {
     },
+    
     watch: {
         value(val){
             this.value = val;
             this.change();
         },
+    },
+    computed:{
+        nameField(){
+            var name = '';
+            if(Object.keys(this.value).length < 3){
+                name = "id"
+            }else{
+                const excludedKeys = ['_links','index'];
+                const filteredKeys = Object.keys(this.value).filter(key => {
+                    const valueType = typeof this.value[key];
+                    return !excludedKeys.includes(key) && key !== 'id' && valueType !== 'object' && valueType !== 'number';
+                });
+                name = filteredKeys[1]; // 필터링된 배열의 두 번째 키
+            }
+            return name
+        }
     },
     async created(){
         if (this.value && this.value.id !== undefined) {
