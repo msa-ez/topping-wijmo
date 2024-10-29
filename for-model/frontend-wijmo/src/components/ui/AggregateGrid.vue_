@@ -175,7 +175,7 @@ export default {
         {{^isRestRepository}}
         {{nameCamelCase}}({{#if fieldDescriptors}}params{{/if}}){
             try{
-                this.repository.invoke(this.getSelectedItem(), "{{nameCamelCase}}", {{#if fieldDescriptors}}params{{else}}null{{/if}})
+                this.repository.invoke(this.getSelectedItem(), "{{controllerInfo.apiPath}}", {{#if fieldDescriptors}}params{{else}}null{{/if}})
                 this.$EventBus.$emit('show-success','{{#ifNotNull displayname name}}{{/ifNotNull}} 성공적으로 처리되었습니다.')
                 {{#if fieldDescriptors}}
                 this.{{nameCamelCase}}Dialog = false
