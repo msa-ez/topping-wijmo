@@ -266,8 +266,8 @@ export default {
         console.log(value)
     });
 
-    window.$HandleBars.registerHelper('isNotId', function (className) {
-        return (className != 'id')
+    window.$HandleBars.registerHelper('isNotId', function (name) {
+        return (name != 'id')
     })
 
     window.$HandleBars.registerHelper('isPrimitive', function (className) {

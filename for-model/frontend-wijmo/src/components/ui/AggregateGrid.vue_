@@ -64,13 +64,11 @@ path: frontend-wijmo/src/components/ui
             {{#unless isKey}}
             {{#if (isNotId nameCamelCase)}}
             {{#if isVO}}
-            {{#checkVO className}}
             <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" width="2*" :isReadOnly="true" align="center">
                 <wj-flex-grid-cell-template cellType="Cell" v-slot="cell">   
                     <{{className}} v-model="cell.item.{{nameCamelCase}}" :editMode="editMode"></{{className}}>
                 </wj-flex-grid-cell-template>
             </wj-flex-grid-column>
-            {{/checkVO}}
             {{else}}
             <wj-flex-grid-column binding="{{nameCamelCase}}" header="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" width="2*" :isReadOnly="true" align="center" />
             {{/if}}
