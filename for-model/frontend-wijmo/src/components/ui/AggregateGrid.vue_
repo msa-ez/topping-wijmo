@@ -80,7 +80,7 @@ path: frontend-wijmo/src/components/ui
             <wj-flex-grid-column binding="{{nameCamelCase}}Id" header="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" width="2*" :isReadOnly="true" align="center">
                 <wj-flex-grid-cell-template cellType="Cell" v-slot="cell">   
                     <{{namePascalCase}}Id v-model="cell.item.{{nameCamelCase}}Id" :editMode="editMode"></{{namePascalCase}}Id>
-                    \{{ cell.item{{#getNameField aggregateRoot.fieldDescriptors ../nameCamelCase}}{{/getNameField}} }}
+                    \{{ cell.item{{#getNameField aggregateRoot.fieldDescriptors ../../nameCamelCase}}{{/getNameField}} }}
                 </wj-flex-grid-cell-template>
             </wj-flex-grid-column>
             {{/target}}
@@ -234,7 +234,7 @@ window.$HandleBars.registerHelper('getNameField', function (field, voName) {
         if(field[i] && field[i].isName){
             return `.${field[i].nameCamelCase}`
         }else{
-            return `${voName}Id`
+            return `.${voName}Id`
         }
     }
 });
