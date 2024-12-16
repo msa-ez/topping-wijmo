@@ -5,7 +5,7 @@ path: frontend-wijmo/src/components/base-ui
     <div>
         <v-combobox
             :items="list"
-            :item-text="nameField"
+            :item-text="getItemText"
             :item-value="idField"
             :label="label"
             return-object
@@ -108,6 +108,36 @@ export default {
                 this.$emit('selected', null)
             }
         },
+        getItemText(item) {
+            if (!item) return '';
+
+            if (typeof item === 'number') {
+                return item.toString();
+            }
+            
+            // nameField가 문자열인 경우
+            if (typeof this.nameField === 'string') {
+                var id = item._links.self.href.split('/')
+                id = id.pop()
+                return id;
+            }
+            
+            // nameField가 함수인 경우
+            const excludedKeys = ['_links', 'index'];
+            const filteredKeys = Object.keys(item).filter(key => {
+                const valueType = typeof item[key];
+                return !excludedKeys.includes(key) && 
+                    key !== 'id' && 
+                    (valueType === 'string' || valueType === 'number');
+            });
+            
+            if (Object.keys(item).length < 3 || filteredKeys.length === 0) {
+                return item.id ? item.id.toString() : '';
+            }
+            
+            const value = item[filteredKeys[1]];
+            return typeof value === 'number' ? value.toString() : value;
+        }
     },
 };
 </script>
