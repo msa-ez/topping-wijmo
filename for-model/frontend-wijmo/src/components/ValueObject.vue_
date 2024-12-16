@@ -130,11 +130,11 @@ export default {
         }
     });
     window.$HandleBars.registerHelper('getNameField', function (fieldDescriptors) {
-        for(var i = 0; i < fieldDescriptors.length; i ++ ){
-            if(fieldDescriptors[i] && fieldDescriptors[i].isName == true){
-                return fieldDescriptors[i].nameCamelCase
-            }else if(fieldDescriptors[i].isName == false && fieldDescriptors[i].isKey == false){
-                return fieldDescriptors[i].nameCamelCase
+        for(var i = 0; i < fieldDescriptors.length; i ++){
+            if(fieldDescriptors[i] && fieldDescriptors[i].isName){
+                return fieldDescriptors[i].nameCamelCase;
+            }else if(fieldDescriptors[i] && fieldDescriptors[i].isKey){
+                return fieldDescriptors[i].nameCamelCase;
             }
         }
     });
