@@ -20,6 +20,8 @@ except: {{#checkDefaultVO namePascalCase}}{{/checkDefaultVO}}
         </div>
         <v-col>
         {{#fieldDescriptors}}
+        {{#if isKey}}
+        {{else}}
         {{#if (isPrimitive className)}}
             <{{getPrimitiveType className}} label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode"/>
         {{else}}
@@ -29,6 +31,7 @@ except: {{#checkDefaultVO namePascalCase}}{{/checkDefaultVO}}
         {{#checkListOfEntityMember className}}
             <{{getEntityClassNameOfList className}}List offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
         {{/checkListOfEntityMember}}
+        {{/if}}
         {{/if}}
         {{/fieldDescriptors}}
         </v-col>
