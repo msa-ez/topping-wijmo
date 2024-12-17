@@ -32,7 +32,7 @@ export default {
         label: String
     },
     data: () => ({
-        selections : [{{#items}}"{{value}}",{{/items}}],
+        selections : [{{#items}}"{{value}}"{{#unless @last}},{{/unless}}{{/items}}],
         newValue: '',
     }),
     async created() {
