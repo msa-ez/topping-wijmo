@@ -52,6 +52,7 @@ path: frontend-wijmo/src/components/primitives
         props: {
             value: Object,
             editMode: Boolean,
+            label: String,
         },
         data: () => ({
             menu: false,
