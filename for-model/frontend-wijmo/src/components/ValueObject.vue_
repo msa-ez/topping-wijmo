@@ -84,8 +84,8 @@ export default {
         }
     },
     async created(){
-        if (this.value && this.value.{{#boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#aggregateRoot.fieldDescriptors}}{{#if isKey}}{{nameCamelCase}}{{/if}}{{/aggregateRoot.fieldDescriptors}}{{/target}}{{/outgoingRelations}}{{/boundedContext.aggregates}} !== undefined) {
-            this.value = await this.repository.findById(this.value.{{#boundedContext.aggregates}}{{#outgoingRelations}}{{#target}}{{#aggregateRoot.fieldDescriptors}}{{#if isKey}}{{nameCamelCase}}{{/if}}{{/aggregateRoot.fieldDescriptors}}{{/target}}{{/outgoingRelations}}{{/boundedContext.aggregates}})
+        if (this.value && this.value.{{#boundedContext.aggregates}}{{#if outgoingRelations}}{{#outgoingRelations}}{{#target}}{{#aggregateRoot.fieldDescriptors}}{{#if isKey}}{{nameCamelCase}}{{/if}}{{/aggregateRoot.fieldDescriptors}}{{/target}}{{/outgoingRelations}}{{else}}id{{/if}}{{/boundedContext.aggregates}} !== undefined) {
+            this.value = await this.repository.findById(this.value.{{#boundedContext.aggregates}}{{#if outgoingRelations}}{{#outgoingRelations}}{{#target}}{{#aggregateRoot.fieldDescriptors}}{{#if isKey}}{{nameCamelCase}}{{/if}}{{/aggregateRoot.fieldDescriptors}}{{/target}}{{/outgoingRelations}}{{else}}id{{/if}}{{/boundedContext.aggregates}})
         }
     },
     methods: {
